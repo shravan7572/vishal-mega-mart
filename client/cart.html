@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - Vishal Mega Mart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#dc2626',
+              darkRed: '#b91c1c',
+              yellow: '#f59e0b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+  <!-- Shared Navbar -->
+  <div id="navbar"></div>
+
+  <!-- Header -->
+  <div class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <h1 class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">Shopping Cart</h1>
+      <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Review your fresh groceries and daily essentials</p>
+    </div>
+  </div>
+
+  <!-- Main Cart Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+    <!-- Empty State -->
+    <div id="emptyCartState" class="hidden py-16 text-center bg-white rounded-2xl border border-dashed border-gray-300 p-8 max-w-lg mx-auto shadow-sm">
+      <div class="w-20 h-20 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+      </div>
+      <h2 class="text-xl font-bold text-gray-900 mb-1">Your Cart is Empty</h2>
+      <p class="text-xs sm:text-sm text-gray-500 mb-6">Looks like you haven't added any fresh groceries to your cart yet.</p>
+      <a href="products.html" class="inline-flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-bold transition shadow-md">
+        <span>Start Shopping</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+      </a>
+    </div>
+
+    <!-- Active Cart Layout -->
+    <div id="cartContent" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Cart Items List (2 cols) -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="p-4 sm:p-5 border-b border-gray-100 flex items-center justify-between">
+            <h2 class="text-base font-bold text-gray-900">Grocery Items</h2>
+            <button onclick="handleClearCart()" class="text-xs text-gray-400 hover:text-red-600 transition font-medium">
+              Clear All Items
+            </button>
+          </div>
+
+          <!-- Items Container -->
+          <div id="cartItemsList">
+            <!-- Injected via cart.js -->
+          </div>
+        </div>
+
+        <div class="mt-4 flex items-center justify-between">
+          <a href="products.html" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-red-600 hover:text-red-700 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            <span>Continue Shopping</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Order Summary Card (1 col) -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
+          <h3 class="text-base font-bold text-gray-900 border-b border-gray-100 pb-3 mb-4">Order Summary</h3>
+
+          <!-- Free Delivery Threshold Banner -->
+          <div id="deliveryFeeAlert"></div>
+
+          <!-- Price Calculations -->
+          <div class="space-y-3 text-sm text-gray-600 mb-6">
+            <div class="flex justify-between">
+              <span>Items Subtotal</span>
+              <span id="cartSubtotal" class="font-bold text-gray-900">₹0</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <div>
+                <span>Delivery Charge</span>
+                <p class="text-[10px] text-gray-400">Free for orders above ₹499</p>
+              </div>
+              <span id="cartDeliveryFee" class="font-semibold text-gray-900">₹40</span>
+            </div>
+            <div class="border-t border-gray-100 pt-3 flex justify-between items-baseline">
+              <span class="text-base font-extrabold text-gray-900">Grand Total</span>
+              <span id="cartGrandTotal" class="text-2xl font-black text-red-600">₹0</span>
+            </div>
+          </div>
+
+          <!-- Checkout Button -->
+          <button 
+            onclick="proceedToCheckout()" 
+            class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-4 rounded-xl text-sm transition shadow-md hover:shadow-lg flex items-center justify-center gap-2 active:scale-[0.99]"
+          >
+            <span>Proceed to Checkout</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </button>
+
+          <!-- Safe Checkout Badge -->
+          <div class="mt-4 pt-4 border-t border-gray-100 text-center">
+            <div class="flex items-center justify-center gap-1.5 text-xs text-gray-500">
+              <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+              <span>256-bit Secure Checkout</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Shared Footer -->
+  <div id="footer"></div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>

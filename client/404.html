@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | Vishal Mega Mart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#dc2626',
+              darkRed: '#b91c1c',
+              yellow: '#f59e0b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen text-gray-800">
+
+  <!-- Shared Navbar -->
+  <div id="navbar"></div>
+
+  <!-- 404 Hero Section -->
+  <main class="flex-grow flex items-center justify-center px-4 py-16 sm:py-24">
+    <div class="max-w-xl w-full text-center">
+      
+      <!-- Visual Graphic -->
+      <div class="relative w-36 h-36 mx-auto mb-6 flex items-center justify-center">
+        <div class="absolute inset-0 bg-red-100/70 rounded-full animate-pulse"></div>
+        <div class="relative w-28 h-28 bg-white rounded-full shadow-lg border border-red-100 flex items-center justify-center text-red-600">
+          <svg class="w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l4 4m0-4l-4 4"></path>
+          </svg>
+        </div>
+        <span class="absolute -top-1 -right-1 bg-red-600 text-white font-mono text-xs font-black px-2.5 py-1 rounded-full shadow">
+          404
+        </span>
+      </div>
+
+      <!-- Text Content -->
+      <span class="inline-block text-xs font-extrabold uppercase tracking-widest text-red-600 bg-red-50 px-3.5 py-1.5 rounded-full mb-3 border border-red-200">
+        Aisle Not Found
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight mb-3">
+        Oops! Looks Like We're Out of Stock Here.
+      </h1>
+      <p class="text-sm sm:text-base text-gray-500 mb-8 max-w-md mx-auto leading-relaxed">
+        The grocery item, shelf, or link you're looking for doesn't exist or has been moved to another section.
+      </p>
+
+      <!-- Search Box -->
+      <form class="max-w-md mx-auto mb-8" onsubmit="handle404Search(event)">
+        <div class="relative">
+          <input 
+            type="text" 
+            id="pageNotFoundSearchInput" 
+            placeholder="Search fresh groceries, atta, dairy, fruits..." 
+            class="w-full bg-white border border-gray-200 rounded-full pl-5 pr-28 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 shadow-sm"
+          />
+          <button 
+            type="submit" 
+            class="absolute right-1.5 top-1.5 bottom-1.5 px-5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-full transition shadow"
+          >
+            Search
+          </button>
+        </div>
+      </form>
+
+      <!-- Navigation Actions -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a 
+          href="index.html" 
+          class="w-full sm:w-auto px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold text-sm rounded-xl transition shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+          <span>Back to Homepage</span>
+        </a>
+        <a 
+          href="products.html" 
+          class="w-full sm:w-auto px-6 py-3 bg-white hover:bg-gray-50 text-gray-800 font-semibold text-sm rounded-xl border border-gray-200 transition shadow-sm hover:border-gray-300 flex items-center justify-center gap-2"
+        >
+          <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+          </svg>
+          <span>Browse All Groceries</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Shared Footer -->
+  <div id="footer"></div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    function handle404Search(e) {
+      e.preventDefault();
+      const input = document.getElementById('pageNotFoundSearchInput');
+      const val = input ? input.value.trim() : '';
+      if (val) {
+        window.location.href = `products.html?search=${encodeURIComponent(val)}`;
+      } else {
+        window.location.href = 'products.html';
+      }
+    }
+  </script>
+</body>
+</html>

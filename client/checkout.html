@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Vishal Mega Mart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#dc2626',
+              darkRed: '#b91c1c',
+              yellow: '#f59e0b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+  <!-- Shared Navbar -->
+  <div id="navbar"></div>
+
+  <!-- Header -->
+  <div class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <h1 class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">Checkout</h1>
+      <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Enter delivery address and choose payment method</p>
+    </div>
+  </div>
+
+  <!-- Main Checkout Area -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+    <form id="checkoutForm" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Left Column: Address & Payment (2 cols) -->
+      <div class="lg:col-span-2 space-y-6">
+        
+        <!-- Step 1: Shipping Address -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <div class="flex items-center gap-3 mb-5 pb-3 border-b border-gray-100">
+            <span class="w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-xs">1</span>
+            <h2 class="text-lg font-bold text-gray-900">Delivery Address</h2>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Recipient Full Name *</label>
+              <input 
+                type="text" 
+                id="checkoutFullName" 
+                required 
+                placeholder="e.g. Rohan Sharma"
+                class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">10-Digit Mobile Number *</label>
+              <input 
+                type="tel" 
+                id="checkoutPhone" 
+                required 
+                pattern="[0-9]{10}"
+                placeholder="e.g. 9876543210"
+                class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+              />
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Street Address & Flat / House No *</label>
+              <input 
+                type="text" 
+                id="checkoutStreet" 
+                required 
+                placeholder="e.g. Flat 402, Shanti Vihar Apartments, MG Road"
+                class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">City *</label>
+              <input 
+                type="text" 
+                id="checkoutCity" 
+                required 
+                placeholder="e.g. Jaipur"
+                class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">State *</label>
+              <input 
+                type="text" 
+                id="checkoutState" 
+                placeholder="e.g. Rajasthan"
+                class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+              />
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">PIN Code *</label>
+              <input 
+                type="text" 
+                id="checkoutPinCode" 
+                required 
+                pattern="[0-9]{6}"
+                placeholder="e.g. 302001"
+                class="w-full sm:w-1/2 bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Payment Method Selection -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <div class="flex items-center gap-3 mb-5 pb-3 border-b border-gray-100">
+            <span class="w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-xs">2</span>
+            <h2 class="text-lg font-bold text-gray-900">Payment Method</h2>
+          </div>
+
+          <!-- Cash On Delivery Option -->
+          <div class="p-4 sm:p-5 rounded-2xl border-2 border-red-500 bg-red-50/30 flex items-start gap-3.5">
+            <div class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center justify-between">
+                <span class="font-extrabold text-sm sm:text-base text-gray-900">Cash on Delivery (COD)</span>
+                <span class="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full uppercase tracking-wider">Guaranteed</span>
+              </div>
+              <p class="text-xs text-gray-600 mt-1 leading-relaxed">
+                Pay with cash or delivery partner UPI QR scanner when your fresh groceries arrive at your door.
+              </p>
+              <div class="mt-3 flex flex-wrap items-center gap-4 text-[11px] text-gray-600 font-medium">
+                <span class="flex items-center gap-1 text-gray-700">
+                  <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                  Zero Advance Payment
+                </span>
+                <span class="flex items-center gap-1 text-gray-700">
+                  <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                  Check Products Upon Delivery
+                </span>
+              </div>
+            </div>
+            <input type="hidden" name="payment_method" value="COD" />
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Order Review & Submit (1 col) -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
+          <h3 class="text-base font-bold text-gray-900 border-b border-gray-100 pb-3 mb-4">Items Review</h3>
+
+          <div id="checkoutItemsList" class="max-h-60 overflow-y-auto space-y-1 pr-1 mb-4">
+            <!-- Injected via checkout.js -->
+          </div>
+
+          <div class="space-y-2.5 text-xs text-gray-600 border-t border-gray-100 pt-3 mb-6">
+            <div class="flex justify-between">
+              <span>Items Total:</span>
+              <span id="checkoutSubtotal" class="font-bold text-gray-900">₹0</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Delivery Fee:</span>
+              <span id="checkoutDelivery" class="font-bold text-gray-900">₹0</span>
+            </div>
+            <div class="border-t border-gray-100 pt-2 flex justify-between items-baseline">
+              <span class="text-sm font-extrabold text-gray-900">Amount to Pay:</span>
+              <span id="checkoutTotal" class="text-xl font-black text-red-600">₹0</span>
+            </div>
+          </div>
+
+          <!-- Submit Order Button -->
+          <button 
+            type="submit" 
+            id="btnSubmitOrder"
+            class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-4 rounded-xl text-sm transition shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+          >
+            <span>Place Order Now</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </button>
+
+          <p class="text-[11px] text-gray-400 text-center mt-3">
+            By placing order, you agree to Vishal Mega Mart's terms of service.
+          </p>
+        </div>
+      </div>
+
+    </form>
+  </main>
+
+  <!-- Shared Footer -->
+  <div id="footer"></div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

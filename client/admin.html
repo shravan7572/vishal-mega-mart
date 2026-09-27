@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Vishal Mega Mart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#dc2626',
+              darkRed: '#b91c1c',
+              yellow: '#f59e0b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+  <!-- Shared Navbar -->
+  <div id="navbar"></div>
+
+  <!-- Admin Subheader -->
+  <div class="bg-red-800 text-white border-b border-red-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center text-amber-300">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        </div>
+        <div>
+          <h1 class="text-xl sm:text-2xl font-black tracking-tight">Store Administrator Portal</h1>
+          <p class="text-xs text-red-200">Catalog, inventory, and order management</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="openCategoryModal()" class="px-3.5 py-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-lg transition border border-white/20">
+          + New Category
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8">
+
+    <!-- KPI Metrics Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+        <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Products</div>
+        <div id="metricTotalProducts" class="text-2xl sm:text-3xl font-black text-gray-900 mt-1">0</div>
+        <div class="text-[11px] text-emerald-600 font-semibold mt-1">● Active in catalog</div>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+        <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Out of Stock</div>
+        <div id="metricOutOfStock" class="text-2xl sm:text-3xl font-black text-red-600 mt-1">0</div>
+        <div class="text-[11px] text-red-500 font-semibold mt-1">● Needs reorder</div>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+        <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Orders</div>
+        <div id="metricTotalOrders" class="text-2xl sm:text-3xl font-black text-blue-600 mt-1">0</div>
+        <div class="text-[11px] text-blue-500 font-semibold mt-1">● Customer orders</div>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+        <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Sales</div>
+        <div id="metricTotalRevenue" class="text-2xl sm:text-3xl font-black text-gray-900 mt-1">₹0</div>
+        <div class="text-[11px] text-gray-400 font-semibold mt-1">● Store revenue</div>
+      </div>
+    </div>
+
+    <!-- Add Product Section -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+      <div class="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
+        <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        <h2 class="text-base font-bold text-gray-900">Add New Grocery Product</h2>
+      </div>
+
+      <form id="addProductForm" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Product Name *</label>
+          <input 
+            type="text" 
+            id="productName" 
+            required 
+            placeholder="e.g. Fresh Alphonso Mangoes (1kg)"
+            class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Category *</label>
+          <select 
+            id="productCategorySelect" 
+            required
+            class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white text-gray-800"
+          >
+            <option value="" disabled selected>Loading categories...</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Price (₹ INR) *</label>
+          <input 
+            type="number" 
+            id="productPrice" 
+            required 
+            min="0"
+            step="1"
+            placeholder="e.g. 199"
+            class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Stock Units *</label>
+          <input 
+            type="number" 
+            id="productStock" 
+            required 
+            min="0"
+            placeholder="e.g. 50"
+            class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+          />
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Image URL *</label>
+          <input 
+            type="url" 
+            id="productImageUrl" 
+            required 
+            placeholder="https://images.unsplash.com/..."
+            class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+          />
+        </div>
+
+        <div class="sm:col-span-2 lg:col-span-3">
+          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Description</label>
+          <textarea 
+            id="productDescription" 
+            rows="2"
+            placeholder="Brief details about freshness, weight, origins..."
+            class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+          ></textarea>
+        </div>
+
+        <div class="sm:col-span-2 lg:col-span-3 flex justify-end">
+          <button 
+            type="submit" 
+            id="btnAddProductSubmit"
+            class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition shadow-sm flex items-center gap-2"
+          >
+            <span>Save Product to Catalog</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Products Table Section -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="p-5 border-b border-gray-100 flex items-center justify-between">
+        <div>
+          <h2 class="text-base font-bold text-gray-900">Manage Catalog Products</h2>
+          <p class="text-xs text-gray-500">Edit prices, adjust inventory stock, or delete items</p>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-gray-50 border-b border-gray-200 text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+              <th class="px-5 py-3.5">Product & Category</th>
+              <th class="px-5 py-3.5">Price</th>
+              <th class="px-5 py-3.5">Inventory</th>
+              <th class="px-5 py-3.5 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminProductsTableBody" class="divide-y divide-gray-100 text-sm">
+            <tr>
+              <td colspan="4" class="py-10 text-center text-gray-400">Loading catalog items...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Customer Orders Management Section -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="p-5 border-b border-gray-100 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-base sm:text-lg font-bold text-gray-900">Order Fulfillment & Delivery Pipeline</h2>
+            <span id="adminOrdersLiveBadge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-red-100 text-red-700">0 Total</span>
+          </div>
+          <p class="text-xs text-gray-500 mt-0.5">Manage live grocery orders, progress statuses, dispatch deliveries, or view receipts</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative w-full md:w-72">
+          <input 
+            type="text" 
+            id="adminOrderSearchInput" 
+            placeholder="Search #Ref, customer, phone..." 
+            oninput="handleAdminOrderSearch(this.value)"
+            class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+          />
+          <svg class="w-4 h-4 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+      </div>
+
+      <!-- Order Status Filter Tabs -->
+      <div class="flex overflow-x-auto border-b border-gray-100 bg-gray-50/70 p-1.5 gap-1.5 text-xs font-semibold">
+        <button onclick="filterAdminOrdersByStatus('All')" id="orderTabAll" class="order-tab px-3.5 py-2 rounded-lg transition bg-white text-red-600 shadow-sm font-bold">
+          All Orders <span id="tabCountAll" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-red-100 text-red-700">0</span>
+        </button>
+        <button onclick="filterAdminOrdersByStatus('Pending')" id="orderTabPending" class="order-tab px-3.5 py-2 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-white/60">
+          Pending <span id="tabCountPending" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-800">0</span>
+        </button>
+        <button onclick="filterAdminOrdersByStatus('Processing')" id="orderTabProcessing" class="order-tab px-3.5 py-2 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-white/60">
+          Processing <span id="tabCountProcessing" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-blue-100 text-blue-800">0</span>
+        </button>
+        <button onclick="filterAdminOrdersByStatus('Shipped')" id="orderTabShipped" class="order-tab px-3.5 py-2 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-white/60">
+          Shipped <span id="tabCountShipped" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-indigo-100 text-indigo-800">0</span>
+        </button>
+        <button onclick="filterAdminOrdersByStatus('Delivered')" id="orderTabDelivered" class="order-tab px-3.5 py-2 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-white/60">
+          Delivered <span id="tabCountDelivered" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800">0</span>
+        </button>
+        <button onclick="filterAdminOrdersByStatus('Cancelled')" id="orderTabCancelled" class="order-tab px-3.5 py-2 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-white/60">
+          Cancelled <span id="tabCountCancelled" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-gray-200 text-gray-700">0</span>
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-gray-50 border-b border-gray-200 text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+              <th class="px-5 py-3.5">Order Ref & Time</th>
+              <th class="px-5 py-3.5">Customer & Address</th>
+              <th class="px-5 py-3.5">Items</th>
+              <th class="px-5 py-3.5">Total (COD)</th>
+              <th class="px-5 py-3.5">Current Status</th>
+              <th class="px-5 py-3.5 text-right">Fulfillment Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminOrdersTableBody" class="divide-y divide-gray-100 text-sm">
+            <tr>
+              <td colspan="6" class="py-8 text-center text-gray-400">Loading store orders...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Edit Product Modal -->
+  <div id="editProductModal" class="hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+        <h3 class="text-lg font-bold text-gray-900">Edit Product</h3>
+        <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+      </div>
+
+      <form id="editProductForm" class="space-y-4">
+        <input type="hidden" id="editProductId" />
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Product Name</label>
+          <input type="text" id="editProductName" required class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-sm" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Price (₹)</label>
+            <input type="number" id="editProductPrice" required min="0" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Stock</label>
+            <input type="number" id="editProductStock" required min="0" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-sm" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Category</label>
+          <select id="editProductCategorySelect" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-sm"></select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Image URL</label>
+          <input type="url" id="editProductImageUrl" required class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-sm" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Description</label>
+          <textarea id="editProductDescription" rows="2" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-sm"></textarea>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-3 border-t border-gray-100">
+          <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-200">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 bg-red-600 text-white rounded-lg text-sm font-bold hover:bg-red-700">
+            Update Product
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- New Category Modal -->
+  <div id="newCategoryModal" class="hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+        <h3 class="text-lg font-bold text-gray-900">Add New Category</h3>
+        <button onclick="closeCategoryModal()" class="text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+      </div>
+
+      <form id="addCategoryForm" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Category Name *</label>
+          <input type="text" id="newCategoryName" required placeholder="e.g. Frozen Foods" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-sm" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Category Image URL *</label>
+          <input type="url" id="newCategoryImageUrl" required placeholder="https://images.unsplash.com/..." class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-sm" />
+        </div>
+
+        <div class="flex justify-end gap-3 pt-3 border-t border-gray-100">
+          <button type="button" onclick="closeCategoryModal()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-200">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 bg-red-600 text-white rounded-lg text-sm font-bold hover:bg-red-700">
+            Create Category
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Order Details & Receipt Modal -->
+  <div id="orderDetailsModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+        <div>
+          <div class="flex items-center gap-2">
+            <h3 id="modalOrderRef" class="text-lg font-black text-gray-900 font-mono">#00000000</h3>
+            <span id="modalOrderStatusBadge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800">Pending</span>
+          </div>
+          <p id="modalOrderDate" class="text-xs text-gray-500 mt-0.5">Placed on ...</p>
+        </div>
+        <button onclick="closeOrderModal()" class="text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+      </div>
+
+      <!-- Fulfillment Progress Tracker -->
+      <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+        <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2">Order Fulfillment Lifecycle</div>
+        <div id="modalOrderTimeline" class="grid grid-cols-4 gap-2 text-center text-xs font-semibold">
+          <!-- Dynamically injected timeline steps -->
+        </div>
+      </div>
+
+      <!-- Customer & Shipping Info -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 text-xs">
+          <div class="font-bold text-gray-900 mb-1.5 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            Customer Information
+          </div>
+          <div id="modalCustomerName" class="font-semibold text-gray-900 text-sm">...</div>
+          <div id="modalCustomerEmail" class="text-gray-500">...</div>
+          <div id="modalCustomerPhone" class="text-gray-800 font-medium mt-1">Ph: ...</div>
+        </div>
+
+        <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 text-xs">
+          <div class="font-bold text-gray-900 mb-1.5 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Delivery Address
+          </div>
+          <div id="modalDeliveryStreet" class="text-gray-800 font-medium">...</div>
+          <div id="modalDeliveryCityState" class="text-gray-600">...</div>
+          <div class="mt-2">
+            <span class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">
+              Cash on Delivery (COD)
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Itemized Products List -->
+      <div>
+        <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2">Ordered Items Breakdown</div>
+        <div id="modalOrderItemsList" class="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100 text-xs">
+          <!-- Injected items -->
+        </div>
+      </div>
+
+      <!-- Financial Totals -->
+      <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 text-xs space-y-1.5">
+        <div class="flex justify-between text-gray-600">
+          <span>Items Subtotal:</span>
+          <span id="modalSubtotal" class="font-semibold text-gray-900">₹0</span>
+        </div>
+        <div class="flex justify-between text-gray-600">
+          <span>Delivery Fee:</span>
+          <span id="modalDeliveryFee" class="font-semibold text-gray-900">₹0</span>
+        </div>
+        <div class="flex justify-between text-sm font-black text-gray-900 border-t border-gray-200 pt-1.5">
+          <span>Total Cash on Delivery to Collect:</span>
+          <span id="modalTotal" class="text-red-600 text-base">₹0</span>
+        </div>
+      </div>
+
+      <!-- Workflow Action Buttons inside Modal -->
+      <div id="modalOrderActions" class="flex flex-wrap items-center justify-end gap-2 pt-3 border-t border-gray-100">
+        <!-- Injected progression buttons -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared Footer -->
+  <div id="footer"></div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

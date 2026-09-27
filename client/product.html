@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details - Vishal Mega Mart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#dc2626',
+              darkRed: '#b91c1c',
+              yellow: '#f59e0b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+  <!-- Shared Navbar -->
+  <div id="navbar"></div>
+
+  <!-- Breadcrumbs -->
+  <div class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <nav class="flex text-xs text-gray-500 gap-1.5 items-center truncate">
+        <a href="index.html" class="hover:text-red-600 transition">Home</a>
+        <span>/</span>
+        <a href="products.html" class="hover:text-red-600 transition">Products</a>
+        <span>/</span>
+        <a id="breadcrumbCategory" href="products.html" class="hover:text-red-600 transition">Category</a>
+        <span>/</span>
+        <span id="breadcrumbTitle" class="text-gray-900 font-semibold truncate">Product</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Main Product Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+    
+    <!-- Loading State -->
+    <div id="productLoadingState" class="py-20 text-center">
+      <div class="inline-block w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin mb-3"></div>
+      <p class="text-sm font-semibold text-gray-600">Loading product information...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="productErrorState" class="hidden py-16 text-center bg-white rounded-2xl border border-gray-200 p-8 max-w-lg mx-auto shadow-sm">
+      <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+      </div>
+      <h2 class="text-xl font-bold text-gray-900 mb-2">Item Unavailable</h2>
+      <p id="errorMessage" class="text-sm text-gray-500 mb-6">We could not load this product.</p>
+      <a href="products.html" class="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-semibold transition">
+        Browse Grocery Catalog &rarr;
+      </a>
+    </div>
+
+    <!-- Product Detail Card -->
+    <div id="productDetailContent" class="hidden">
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden p-6 lg:p-8 mb-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-start">
+          
+          <!-- Image Column -->
+          <div class="relative bg-gray-50 rounded-xl overflow-hidden border border-gray-200">
+            <img 
+              id="productImage" 
+              src="" 
+              alt="Grocery Product" 
+              class="w-full h-80 sm:h-96 md:h-[420px] object-cover"
+            />
+          </div>
+
+          <!-- Product Details Column -->
+          <div class="flex flex-col space-y-5">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span id="productCategoryTag" class="text-xs font-bold text-red-600 uppercase tracking-widest bg-red-50 px-2.5 py-1 rounded">
+                  Category
+                </span>
+                <div id="productStockBadge"></div>
+              </div>
+              <h1 id="productTitle" class="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight">
+                Product Title
+              </h1>
+            </div>
+
+            <!-- Price & Guarantee Box -->
+            <div class="bg-red-50/60 rounded-xl p-4 border border-red-100 flex items-baseline justify-between">
+              <div>
+                <div class="text-xs text-red-700 font-semibold">Special Mega Mart Price</div>
+                <div id="productPrice" class="text-3xl sm:text-4xl font-black text-red-600 mt-0.5">₹0</div>
+                <div class="text-xs text-gray-500 mt-1">Inclusive of all taxes & local levies</div>
+              </div>
+              <div class="text-right">
+                <span class="inline-block bg-amber-400 text-red-950 font-bold text-[11px] px-2 py-0.5 rounded shadow-sm">
+                  Super Saver
+                </span>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div>
+              <h3 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-1.5">Product Description</h3>
+              <p id="productDescription" class="text-sm text-gray-600 leading-relaxed">
+                Description goes here...
+              </p>
+            </div>
+
+            <!-- Quantity & Actions -->
+            <div class="pt-4 border-t border-gray-100 space-y-4">
+              <div class="flex items-center gap-4">
+                <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Quantity:</label>
+                <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden bg-white shadow-sm">
+                  <button 
+                    onclick="updateQuantity(-1)" 
+                    class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-base font-bold transition active:bg-gray-300"
+                  >
+                    -
+                  </button>
+                  <input 
+                    type="number" 
+                    id="productQuantityInput" 
+                    value="1" 
+                    min="1" 
+                    readonly 
+                    class="w-12 text-center text-sm font-bold text-gray-900 focus:outline-none bg-white pointer-events-none"
+                  />
+                  <button 
+                    onclick="updateQuantity(1)" 
+                    class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-base font-bold transition active:bg-gray-300"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                <button 
+                  id="btnAddToCart" 
+                  onclick="handleAddToCart()" 
+                  class="flex-1 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold py-3 px-6 rounded-xl transition shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                  <span>Add to Cart</span>
+                </button>
+                <button 
+                  id="btnBuyNow" 
+                  onclick="handleBuyNow()" 
+                  class="flex-1 bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-gray-950 font-bold py-3 px-6 rounded-xl transition shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                  <span>Buy Now</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Assurances -->
+            <div class="grid grid-cols-2 gap-3 pt-3 text-xs text-gray-600">
+              <div class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 border border-gray-100">
+                <svg class="w-4 h-4 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <span>100% Genuine & Fresh</span>
+              </div>
+              <div class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 border border-gray-100">
+                <svg class="w-4 h-4 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <span>Fast & Safe Delivery</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Products Section -->
+      <section id="relatedProductsSection" class="mt-8">
+        <h2 class="text-xl font-extrabold text-gray-900 mb-4 tracking-tight">Similar Groceries You May Like</h2>
+        <div id="relatedProductsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <!-- Populated via product.js -->
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- Shared Footer -->
+  <div id="footer"></div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/product.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+/.pnpm-store
+
+# Environment variables
+.env
+.env.local
+.env.production
+server/.env
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Editor & IDE directories
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary files and scratch
+*.tmp
+*.temp
+scratch/
