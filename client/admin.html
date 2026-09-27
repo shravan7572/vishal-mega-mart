@@ -22,245 +22,589 @@
   </script>
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex h-screen overflow-hidden text-gray-800">
 
-  <!-- Shared Navbar -->
-  <div id="navbar"></div>
+  <!-- Mobile Sidebar Backdrop -->
+  <div id="sidebarBackdrop" onclick="toggleMobileSidebar(false)" class="hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"></div>
 
-  <!-- Admin Subheader -->
-  <div class="bg-red-800 text-white border-b border-red-900">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-      <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center text-amber-300">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-        </div>
-        <div>
-          <h1 class="text-xl sm:text-2xl font-black tracking-tight">Store Administrator Portal</h1>
-          <p class="text-xs text-red-200">Catalog, inventory, and order management</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-2">
-        <button onclick="openCategoryModal()" class="px-3.5 py-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-lg transition border border-white/20">
-          + New Category
+  <!-- Sidebar Navigation -->
+  <aside id="adminSidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white flex flex-col justify-between transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out border-r border-slate-800 shadow-xl">
+    
+    <!-- Top Brand & Admin Info -->
+    <div>
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center font-black text-white text-base shadow">
+            V
+          </div>
+          <div>
+            <div class="text-sm font-black tracking-tight text-white">VISHAL MEGA MART</div>
+            <div class="text-[10px] text-red-400 font-bold uppercase tracking-wider">Admin Central</div>
+          </div>
+        </a>
+        <button onclick="toggleMobileSidebar(false)" class="md:hidden text-slate-400 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
+
+      <!-- Current Admin Profile Card -->
+      <div class="p-4 mx-3 my-3 bg-slate-800/80 rounded-xl border border-slate-700/60 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-red-600/30 text-red-400 border border-red-500/30 flex items-center justify-center font-bold text-sm">
+          A
+        </div>
+        <div class="overflow-hidden">
+          <div id="sidebarAdminName" class="text-xs font-bold text-white truncate">Administrator</div>
+          <div class="flex items-center gap-1.5 mt-0.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-[10px] text-slate-400 font-medium">Live Store Manager</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation Menu Items -->
+      <nav class="px-3 space-y-1.5 mt-4">
+        <div class="px-3 pb-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Store Operations</div>
+
+        <!-- 1. Sales Analytics -->
+        <button 
+          id="navBtnAnalytics" 
+          onclick="switchAdminView('analytics')" 
+          class="sidebar-nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition text-white bg-red-600 shadow-sm"
+        >
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            <span>Sales Analytics</span>
+          </div>
+          <span class="text-[10px] bg-white/20 text-white px-2 py-0.5 rounded-full font-bold">Real-time</span>
+        </button>
+
+        <!-- 2. Today's Orders -->
+        <button 
+          id="navBtnTodayOrders" 
+          onclick="switchAdminView('today-orders')" 
+          class="sidebar-nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition text-slate-300 hover:text-white hover:bg-slate-800/80"
+        >
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            <span>Today's Orders</span>
+          </div>
+          <span id="sidebarTodayOrdersBadge" class="text-[10px] bg-red-600 text-white px-2 py-0.5 rounded-full font-bold">0</span>
+        </button>
+
+        <!-- 3. Catalogue -->
+        <button 
+          id="navBtnCatalogue" 
+          onclick="switchAdminView('catalogue')" 
+          class="sidebar-nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition text-slate-300 hover:text-white hover:bg-slate-800/80"
+        >
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            <span>Catalogue</span>
+          </div>
+          <span id="sidebarCatalogueBadge" class="text-[10px] bg-slate-800 text-slate-300 border border-slate-700 px-2 py-0.5 rounded-full font-bold">0</span>
+        </button>
+
+        <div class="pt-4 px-3 pb-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Quick Actions</div>
+
+        <button 
+          onclick="openCategoryModal()" 
+          class="w-full flex items-center gap-2.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/50 transition"
+        >
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          <span>New Category</span>
+        </button>
+
+        <a 
+          href="index.html" 
+          target="_blank" 
+          class="w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/50 transition"
+        >
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            <span>View Live Store</span>
+          </div>
+          <span class="text-[10px] text-slate-400">External</span>
+        </a>
+      </nav>
     </div>
+
+    <!-- Sidebar Bottom Footer -->
+    <div class="p-3 border-t border-slate-800 bg-slate-950/60">
+      <button 
+        onclick="handleLogout()" 
+        class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-slate-800/80 hover:bg-red-900/40 text-slate-300 hover:text-red-300 text-xs font-bold rounded-xl transition border border-slate-700/60"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        <span>Logout Admin</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <div class="flex-1 flex flex-col md:pl-64 overflow-hidden">
+    
+    <!-- Top Admin Bar -->
+    <header class="bg-white border-b border-gray-200 h-16 px-4 sm:px-6 flex items-center justify-between z-20 shrink-0">
+      <div class="flex items-center gap-3">
+        <!-- Mobile Toggle Button -->
+        <button onclick="toggleMobileSidebar(true)" class="md:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+
+        <div>
+          <h1 id="topViewTitle" class="text-base sm:text-lg font-black text-gray-900 leading-tight">Sales Analytics</h1>
+          <p id="topViewSubtitle" class="text-[11px] text-gray-500 hidden sm:block">Live revenue metrics, order velocity, and sales intelligence from MongoDB</p>
+        </div>
+      </div>
+
+      <!-- Header Action Controls -->
+      <div class="flex items-center gap-2.5">
+        <button 
+          onclick="refreshAllAdminData()" 
+          id="btnRefreshData"
+          class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-lg transition"
+          title="Reload live database metrics"
+        >
+          <svg id="refreshIcon" class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          <span class="hidden sm:inline">Refresh Data</span>
+        </button>
+
+        <div class="hidden lg:flex items-center gap-2 pl-3 border-l border-gray-200">
+          <span class="flex h-2 w-2 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span class="text-xs font-semibold text-gray-600">Database Connected</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Scrollable View Body -->
+    <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+      <!-- ============================================================== -->
+      <!-- VIEW 1: SALES ANALYTICS (REAL DATABASE METRICS) -->
+      <!-- ============================================================== -->
+      <section id="viewAnalytics" class="space-y-6">
+        
+        <!-- Analytics Header Banner -->
+        <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-red-950 text-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-800 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-red-600/30 text-red-300 text-xs font-bold border border-red-500/20 mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+              Real-Time Dynamic Calculations
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black">Sales & Revenue Intelligence</h2>
+            <p class="text-xs text-slate-300 mt-1 max-w-xl">
+              All metrics below are computed dynamically from actual customer orders, active items, and delivered Cash on Delivery receipts. No seeded mock data.
+            </p>
+          </div>
+          <div class="text-right flex md:flex-col items-center md:items-end justify-between border-t md:border-t-0 border-slate-700/80 pt-3 md:pt-0">
+            <div class="text-xs text-slate-400">Delivered Net Revenue</div>
+            <div id="analyticsDeliveredRevenueBig" class="text-2xl sm:text-3xl font-black text-emerald-400">₹0</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">from <span id="analyticsDeliveredOrdersCount" class="font-bold text-white">0</span> delivered orders</div>
+          </div>
+        </div>
+
+        <!-- Primary KPI Metrics Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Total Sales (Delivered COD) -->
+          <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden">
+            <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Sales (Delivered)</div>
+            <div id="metricAnalyticsTotalSales" class="text-2xl sm:text-3xl font-black text-gray-900 mt-1.5">₹0</div>
+            <div class="flex items-center gap-1.5 mt-2 text-xs font-medium text-emerald-600">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              <span>Cash collected</span>
+            </div>
+          </div>
+
+          <!-- Today's Sales -->
+          <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+            <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Today's Sales (Delivered)</div>
+            <div id="metricAnalyticsTodaySales" class="text-2xl sm:text-3xl font-black text-red-600 mt-1.5">₹0</div>
+            <div class="flex items-center gap-1.5 mt-2 text-xs font-medium text-gray-500">
+              <span>Gross booked today:</span>
+              <span id="metricAnalyticsTodayGross" class="font-bold text-gray-900">₹0</span>
+            </div>
+          </div>
+
+          <!-- Average Order Value (AOV) -->
+          <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+            <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Average Order Value (AOV)</div>
+            <div id="metricAnalyticsAOV" class="text-2xl sm:text-3xl font-black text-blue-600 mt-1.5">₹0</div>
+            <div class="text-xs font-medium text-gray-500 mt-2">
+              Based on active store orders
+            </div>
+          </div>
+
+          <!-- Total Units Sold -->
+          <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+            <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Groceries Units Sold</div>
+            <div id="metricAnalyticsUnitsSold" class="text-2xl sm:text-3xl font-black text-purple-600 mt-1.5">0</div>
+            <div class="text-xs font-medium text-gray-500 mt-2">
+              Total items fulfilled/ordered
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary Metrics Row -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="bg-white p-3.5 rounded-xl border border-gray-100 text-xs">
+            <span class="text-gray-500">All-Time Orders:</span>
+            <div id="metricAnalyticsTotalOrdersCount" class="font-bold text-gray-900 text-base mt-0.5">0</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-xl border border-gray-100 text-xs">
+            <span class="text-gray-500">Today's Total Orders:</span>
+            <div id="metricAnalyticsTodayOrdersCount" class="font-bold text-gray-900 text-base mt-0.5">0</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-xl border border-gray-100 text-xs">
+            <span class="text-gray-500">Today's Pending Orders:</span>
+            <div id="metricAnalyticsTodayPendingCount" class="font-bold text-amber-600 text-base mt-0.5">0</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-xl border border-gray-100 text-xs">
+            <span class="text-gray-500">Out of Stock Items:</span>
+            <div id="metricAnalyticsOutOfStock" class="font-bold text-red-600 text-base mt-0.5">0</div>
+          </div>
+        </div>
+
+        <!-- Visual Analytics Grid: 7-Day Trend + Status Distribution -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- 7-Day Daily Revenue Trend (Real Data) -->
+          <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm lg:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="text-sm font-bold text-gray-900">7-Day Sales & Order Velocity Trend</h3>
+                <p class="text-xs text-gray-500">Daily gross revenue and order frequency from live database</p>
+              </div>
+              <span class="text-xs font-semibold px-2.5 py-1 bg-red-50 text-red-700 rounded-lg">Last 7 Days</span>
+            </div>
+
+            <!-- Dynamic Bars Container -->
+            <div id="analyticsDailyTrendChart" class="h-56 flex items-end justify-between gap-2 pt-6 pb-2 border-b border-gray-100">
+              <div class="w-full text-center py-20 text-xs text-gray-400">Loading daily sales trend...</div>
+            </div>
+            <div class="text-[11px] text-gray-400 mt-2 text-right">Amounts in Indian Rupees (₹)</div>
+          </div>
+
+          <!-- Order Status Distribution -->
+          <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
+            <div>
+              <h3 class="text-sm font-bold text-gray-900 mb-1">Order Pipeline Distribution</h3>
+              <p class="text-xs text-gray-500 mb-4">Current stage of all customer grocery orders</p>
+              
+              <div id="analyticsStatusBreakdown" class="space-y-3 text-xs">
+                <!-- Dynamically injected status breakdown progress bars -->
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-gray-100 mt-4 text-center">
+              <button 
+                onclick="switchAdminView('today-orders')" 
+                class="text-xs font-bold text-red-600 hover:text-red-700 transition"
+              >
+                Go to Fulfillment Pipeline &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Selling Products Leaderboard -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div class="p-5 border-b border-gray-100 flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-bold text-gray-900">Top-Selling Grocery Items</h3>
+              <p class="text-xs text-gray-500">Ranked by actual quantities ordered and revenue generated</p>
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-1 bg-purple-50 text-purple-700 rounded-lg">Top Performers</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-gray-50 text-[11px] font-bold text-gray-500 uppercase tracking-wider border-b border-gray-100">
+                  <th class="px-5 py-3">Product Name</th>
+                  <th class="px-5 py-3 text-center">Units Sold</th>
+                  <th class="px-5 py-3 text-right">Revenue Generated</th>
+                </tr>
+              </thead>
+              <tbody id="analyticsTopProductsTableBody" class="divide-y divide-gray-100">
+                <tr>
+                  <td colspan="3" class="px-5 py-8 text-center text-gray-400">Loading top products...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- VIEW 2: TODAY'S ORDERS & FULFILLMENT PIPELINE -->
+      <!-- ============================================================== -->
+      <section id="viewTodayOrders" class="hidden space-y-6">
+
+        <!-- Today's Summary Card -->
+        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-red-100 text-red-700 flex items-center justify-center font-bold">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div>
+              <h2 class="text-base font-bold text-gray-900">Today's Orders & Delivery Pipeline</h2>
+              <p class="text-xs text-gray-500">Manage incoming orders placed today, dispatch deliveries, and collect Cash on Delivery</p>
+            </div>
+          </div>
+
+          <!-- Quick Filters: Today Only vs All-Time Pipeline -->
+          <div class="flex items-center gap-2 bg-gray-100 p-1 rounded-xl text-xs font-bold">
+            <button 
+              id="filterScopeToday" 
+              onclick="setOrderScope('today')" 
+              class="px-3 py-1.5 rounded-lg bg-white text-red-600 shadow-sm transition"
+            >
+              Today's Orders (<span id="scopeTodayCount">0</span>)
+            </button>
+            <button 
+              id="filterScopeAll" 
+              onclick="setOrderScope('all')" 
+              class="px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 transition"
+            >
+              All Store Orders (<span id="scopeAllCount">0</span>)
+            </button>
+          </div>
+        </div>
+
+        <!-- Orders Table Card -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="p-4 sm:p-5 border-b border-gray-100 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            
+            <!-- Search Bar -->
+            <div class="relative w-full md:w-80">
+              <input 
+                type="text" 
+                id="adminOrderSearchInput" 
+                placeholder="Search by #Ref, customer, phone..." 
+                oninput="handleAdminOrderSearch(this.value)"
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+              />
+              <svg class="w-4 h-4 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+
+            <!-- Status Tabs -->
+            <div class="flex overflow-x-auto gap-1 text-xs font-semibold">
+              <button onclick="filterAdminOrdersByStatus('All')" id="orderTabAll" class="order-tab px-3 py-1.5 rounded-lg transition bg-red-50 text-red-700 font-bold">
+                All (<span id="tabCountAll">0</span>)
+              </button>
+              <button onclick="filterAdminOrdersByStatus('Pending')" id="orderTabPending" class="order-tab px-3 py-1.5 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+                Pending (<span id="tabCountPending">0</span>)
+              </button>
+              <button onclick="filterAdminOrdersByStatus('Processing')" id="orderTabProcessing" class="order-tab px-3 py-1.5 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+                Processing (<span id="tabCountProcessing">0</span>)
+              </button>
+              <button onclick="filterAdminOrdersByStatus('Shipped')" id="orderTabShipped" class="order-tab px-3 py-1.5 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+                Shipped (<span id="tabCountShipped">0</span>)
+              </button>
+              <button onclick="filterAdminOrdersByStatus('Delivered')" id="orderTabDelivered" class="order-tab px-3 py-1.5 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+                Delivered (<span id="tabCountDelivered">0</span>)
+              </button>
+              <button onclick="filterAdminOrdersByStatus('Cancelled')" id="orderTabCancelled" class="order-tab px-3 py-1.5 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+                Cancelled (<span id="tabCountCancelled">0</span>)
+              </button>
+            </div>
+          </div>
+
+          <!-- Orders Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-gray-50 border-b border-gray-200 text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                  <th class="px-5 py-3.5">Order Ref & Time</th>
+                  <th class="px-5 py-3.5">Customer & Address</th>
+                  <th class="px-5 py-3.5">Items</th>
+                  <th class="px-5 py-3.5">Total (COD)</th>
+                  <th class="px-5 py-3.5">Current Status</th>
+                  <th class="px-5 py-3.5 text-right">Fulfillment Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminOrdersTableBody" class="divide-y divide-gray-100 text-sm">
+                <tr>
+                  <td colspan="6" class="py-12 text-center text-gray-400">Loading orders pipeline...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- VIEW 3: CATALOGUE MANAGEMENT -->
+      <!-- ============================================================== -->
+      <section id="viewCatalogue" class="hidden space-y-6">
+
+        <!-- Catalogue Stats Banner -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+            <div class="text-xs font-bold text-gray-500 uppercase">Total Catalogue Items</div>
+            <div id="catMetricTotal" class="text-2xl font-black text-gray-900 mt-1">0</div>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+            <div class="text-xs font-bold text-gray-500 uppercase">In Stock</div>
+            <div id="catMetricInStock" class="text-2xl font-black text-emerald-600 mt-1">0</div>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+            <div class="text-xs font-bold text-gray-500 uppercase">Low Stock (≤10)</div>
+            <div id="catMetricLowStock" class="text-2xl font-black text-amber-600 mt-1">0</div>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+            <div class="text-xs font-bold text-gray-500 uppercase">Out of Stock</div>
+            <div id="catMetricOutOfStock" class="text-2xl font-black text-red-600 mt-1">0</div>
+          </div>
+        </div>
+
+        <!-- Add New Product Form Card -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+              <h2 class="text-base font-bold text-gray-900">Add New Product to Catalogue</h2>
+            </div>
+            <button 
+              onclick="openCategoryModal()" 
+              class="text-xs font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition"
+            >
+              + Create Category
+            </button>
+          </div>
+
+          <form id="addProductForm" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Product Name *</label>
+              <input 
+                type="text" 
+                id="productName" 
+                required 
+                placeholder="e.g. Fresh Alphonso Mangoes (1kg)"
+                class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Category *</label>
+              <select 
+                id="productCategorySelect" 
+                required
+                class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white text-gray-800"
+              >
+                <option value="" disabled selected>Select category...</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Price (₹ INR) *</label>
+              <input 
+                type="number" 
+                id="productPrice" 
+                required 
+                min="0"
+                step="1"
+                placeholder="e.g. 199"
+                class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Stock Quantity *</label>
+              <input 
+                type="number" 
+                id="productStock" 
+                required 
+                min="0"
+                placeholder="e.g. 50"
+                class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+              />
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Image URL *</label>
+              <input 
+                type="url" 
+                id="productImageUrl" 
+                required 
+                placeholder="https://images.unsplash.com/..."
+                class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+              />
+            </div>
+
+            <div class="sm:col-span-2 lg:col-span-3">
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Description</label>
+              <textarea 
+                id="productDescription" 
+                rows="2"
+                placeholder="Product freshness, specifications, packaging..."
+                class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+              ></textarea>
+            </div>
+
+            <div class="sm:col-span-2 lg:col-span-3 flex justify-end">
+              <button 
+                type="submit" 
+                id="btnAddProductSubmit"
+                class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition shadow-sm flex items-center gap-2"
+              >
+                <span>Save Product to Catalog</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Catalog Products Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="p-4 sm:p-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <h3 class="text-base font-bold text-gray-900">Manage Catalog Inventory</h3>
+              <p class="text-xs text-gray-500">Edit prices, adjust stock levels, or remove discontinued products</p>
+            </div>
+
+            <!-- Product Search & Filter -->
+            <div class="flex items-center gap-2">
+              <input 
+                type="text" 
+                id="catalogProductSearch" 
+                placeholder="Search products..." 
+                oninput="handleCatalogProductSearch(this.value)"
+                class="bg-gray-50 border border-gray-200 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-red-500"
+              />
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-gray-50 border-b border-gray-200 text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                  <th class="px-5 py-3.5">Product & Category</th>
+                  <th class="px-5 py-3.5">Price</th>
+                  <th class="px-5 py-3.5">Stock Status</th>
+                  <th class="px-5 py-3.5 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminProductsTableBody" class="divide-y divide-gray-100 text-sm">
+                <tr>
+                  <td colspan="4" class="py-10 text-center text-gray-400">Loading catalog items...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
   </div>
 
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8">
-
-    <!-- KPI Metrics Cards -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-        <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Products</div>
-        <div id="metricTotalProducts" class="text-2xl sm:text-3xl font-black text-gray-900 mt-1">0</div>
-        <div class="text-[11px] text-emerald-600 font-semibold mt-1">● Active in catalog</div>
-      </div>
-      <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-        <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Out of Stock</div>
-        <div id="metricOutOfStock" class="text-2xl sm:text-3xl font-black text-red-600 mt-1">0</div>
-        <div class="text-[11px] text-red-500 font-semibold mt-1">● Needs reorder</div>
-      </div>
-      <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-        <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Orders</div>
-        <div id="metricTotalOrders" class="text-2xl sm:text-3xl font-black text-blue-600 mt-1">0</div>
-        <div class="text-[11px] text-blue-500 font-semibold mt-1">● Customer orders</div>
-      </div>
-      <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-        <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Sales</div>
-        <div id="metricTotalRevenue" class="text-2xl sm:text-3xl font-black text-gray-900 mt-1">₹0</div>
-        <div class="text-[11px] text-gray-400 font-semibold mt-1">● Store revenue</div>
-      </div>
-    </div>
-
-    <!-- Add Product Section -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-      <div class="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
-        <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-        <h2 class="text-base font-bold text-gray-900">Add New Grocery Product</h2>
-      </div>
-
-      <form id="addProductForm" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div>
-          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Product Name *</label>
-          <input 
-            type="text" 
-            id="productName" 
-            required 
-            placeholder="e.g. Fresh Alphonso Mangoes (1kg)"
-            class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
-          />
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Category *</label>
-          <select 
-            id="productCategorySelect" 
-            required
-            class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white text-gray-800"
-          >
-            <option value="" disabled selected>Loading categories...</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Price (₹ INR) *</label>
-          <input 
-            type="number" 
-            id="productPrice" 
-            required 
-            min="0"
-            step="1"
-            placeholder="e.g. 199"
-            class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
-          />
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Stock Units *</label>
-          <input 
-            type="number" 
-            id="productStock" 
-            required 
-            min="0"
-            placeholder="e.g. 50"
-            class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
-          />
-        </div>
-
-        <div class="sm:col-span-2">
-          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Image URL *</label>
-          <input 
-            type="url" 
-            id="productImageUrl" 
-            required 
-            placeholder="https://images.unsplash.com/..."
-            class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
-          />
-        </div>
-
-        <div class="sm:col-span-2 lg:col-span-3">
-          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Description</label>
-          <textarea 
-            id="productDescription" 
-            rows="2"
-            placeholder="Brief details about freshness, weight, origins..."
-            class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
-          ></textarea>
-        </div>
-
-        <div class="sm:col-span-2 lg:col-span-3 flex justify-end">
-          <button 
-            type="submit" 
-            id="btnAddProductSubmit"
-            class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition shadow-sm flex items-center gap-2"
-          >
-            <span>Save Product to Catalog</span>
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <!-- Products Table Section -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-      <div class="p-5 border-b border-gray-100 flex items-center justify-between">
-        <div>
-          <h2 class="text-base font-bold text-gray-900">Manage Catalog Products</h2>
-          <p class="text-xs text-gray-500">Edit prices, adjust inventory stock, or delete items</p>
-        </div>
-      </div>
-
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="bg-gray-50 border-b border-gray-200 text-[11px] font-bold text-gray-500 uppercase tracking-wider">
-              <th class="px-5 py-3.5">Product & Category</th>
-              <th class="px-5 py-3.5">Price</th>
-              <th class="px-5 py-3.5">Inventory</th>
-              <th class="px-5 py-3.5 text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="adminProductsTableBody" class="divide-y divide-gray-100 text-sm">
-            <tr>
-              <td colspan="4" class="py-10 text-center text-gray-400">Loading catalog items...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Customer Orders Management Section -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-      <div class="p-5 border-b border-gray-100 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <div class="flex items-center gap-2">
-            <h2 class="text-base sm:text-lg font-bold text-gray-900">Order Fulfillment & Delivery Pipeline</h2>
-            <span id="adminOrdersLiveBadge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-red-100 text-red-700">0 Total</span>
-          </div>
-          <p class="text-xs text-gray-500 mt-0.5">Manage live grocery orders, progress statuses, dispatch deliveries, or view receipts</p>
-        </div>
-
-        <!-- Search Bar -->
-        <div class="relative w-full md:w-72">
-          <input 
-            type="text" 
-            id="adminOrderSearchInput" 
-            placeholder="Search #Ref, customer, phone..." 
-            oninput="handleAdminOrderSearch(this.value)"
-            class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
-          />
-          <svg class="w-4 h-4 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        </div>
-      </div>
-
-      <!-- Order Status Filter Tabs -->
-      <div class="flex overflow-x-auto border-b border-gray-100 bg-gray-50/70 p-1.5 gap-1.5 text-xs font-semibold">
-        <button onclick="filterAdminOrdersByStatus('All')" id="orderTabAll" class="order-tab px-3.5 py-2 rounded-lg transition bg-white text-red-600 shadow-sm font-bold">
-          All Orders <span id="tabCountAll" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-red-100 text-red-700">0</span>
-        </button>
-        <button onclick="filterAdminOrdersByStatus('Pending')" id="orderTabPending" class="order-tab px-3.5 py-2 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-white/60">
-          Pending <span id="tabCountPending" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-800">0</span>
-        </button>
-        <button onclick="filterAdminOrdersByStatus('Processing')" id="orderTabProcessing" class="order-tab px-3.5 py-2 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-white/60">
-          Processing <span id="tabCountProcessing" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-blue-100 text-blue-800">0</span>
-        </button>
-        <button onclick="filterAdminOrdersByStatus('Shipped')" id="orderTabShipped" class="order-tab px-3.5 py-2 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-white/60">
-          Shipped <span id="tabCountShipped" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-indigo-100 text-indigo-800">0</span>
-        </button>
-        <button onclick="filterAdminOrdersByStatus('Delivered')" id="orderTabDelivered" class="order-tab px-3.5 py-2 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-white/60">
-          Delivered <span id="tabCountDelivered" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800">0</span>
-        </button>
-        <button onclick="filterAdminOrdersByStatus('Cancelled')" id="orderTabCancelled" class="order-tab px-3.5 py-2 rounded-lg transition text-gray-600 hover:text-gray-900 hover:bg-white/60">
-          Cancelled <span id="tabCountCancelled" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-gray-200 text-gray-700">0</span>
-        </button>
-      </div>
-
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="bg-gray-50 border-b border-gray-200 text-[11px] font-bold text-gray-500 uppercase tracking-wider">
-              <th class="px-5 py-3.5">Order Ref & Time</th>
-              <th class="px-5 py-3.5">Customer & Address</th>
-              <th class="px-5 py-3.5">Items</th>
-              <th class="px-5 py-3.5">Total (COD)</th>
-              <th class="px-5 py-3.5">Current Status</th>
-              <th class="px-5 py-3.5 text-right">Fulfillment Actions</th>
-            </tr>
-          </thead>
-          <tbody id="adminOrdersTableBody" class="divide-y divide-gray-100 text-sm">
-            <tr>
-              <td colspan="6" class="py-8 text-center text-gray-400">Loading store orders...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-  </main>
-
   <!-- Edit Product Modal -->
-  <div id="editProductModal" class="hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+  <div id="editProductModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between pb-3 border-b border-gray-100">
         <h3 class="text-lg font-bold text-gray-900">Edit Product</h3>
@@ -314,7 +658,7 @@
   </div>
 
   <!-- New Category Modal -->
-  <div id="newCategoryModal" class="hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+  <div id="newCategoryModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between pb-3 border-b border-gray-100">
         <h3 class="text-lg font-bold text-gray-900">Add New Category</h3>
@@ -424,12 +768,8 @@
     </div>
   </div>
 
-  <!-- Shared Footer -->
-  <div id="footer"></div>
-
   <!-- Scripts -->
   <script src="js/api.js"></script>
-  <script src="js/navbar.js"></script>
   <script src="js/admin.js"></script>
 </body>
 </html>

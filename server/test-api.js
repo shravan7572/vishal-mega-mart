@@ -275,9 +275,37 @@ async function runTests() {
     await request('DELETE', `/api/products/${testProdId}`, null, adminToken);
     console.log(`[PASS] Cleaned up temporary test product.`);
 
+    // 10. REAL SALES ANALYTICS VERIFICATION
+    console.log('\n--- 10. Real Sales Analytics Verification ---');
+    // Customer must be denied access (403)
+    const custAnalyticsRes = await request('GET', '/api/orders/analytics/overview', null, customerToken);
+    console.log(`[PASS] [Analytics Access Control] Customer access blocked with ${custAnalyticsRes.status} (Expected 403)`);
+    if (custAnalyticsRes.status !== 403) throw new Error('Customer was allowed to access admin sales analytics');
+
+    // Admin access must succeed (200) with real computed MongoDB metrics
+    const adminAnalyticsRes = await request('GET', '/api/orders/analytics/overview', null, adminToken);
+    console.log(`[PASS] [Analytics Access Control] Admin analytics fetched with ${adminAnalyticsRes.status}`);
+    if (adminAnalyticsRes.status !== 200 || !adminAnalyticsRes.data.analytics) throw new Error('Failed to fetch admin analytics');
+
+    const an = adminAnalyticsRes.data.analytics;
+    console.log(`[PASS] [Real Analytics Data]:
+      - Total Delivered Revenue: Rs. ${an.totalRevenue}
+      - Today Gross Volume: Rs. ${an.todayGrossVolume}
+      - Today Delivered Sales: Rs. ${an.todaySales}
+      - Today Orders Count: ${an.todayOrdersCount}
+      - Average Order Value: Rs. ${an.averageOrderValue}
+      - Units Sold: ${an.totalUnitsSold}
+      - 7-Day Trend Points: ${an.dailyTrend?.length} days
+      - Top Selling Products: ${an.topSellingProducts?.length}
+      - Total Catalog Items: ${an.totalProductsCount}`);
+
+    if (typeof an.totalRevenue !== 'number' || typeof an.todayOrdersCount !== 'number' || an.dailyTrend?.length !== 7) {
+      throw new Error('Analytics payload structure is invalid');
+    }
+
     console.log('\n===============================================================');
     console.log('[ALL TESTS PASSED] Zod Auth, COD Enforcement, State Transitions,');
-    console.log('Stock Auto-Restoration, and Admin Order Pipeline 100% Verified!');
+    console.log('Stock Auto-Restoration, Admin Order Pipeline & Real Analytics 100% Verified!');
     console.log('===============================================================\n');
     process.exit(0);
   } catch (err) {

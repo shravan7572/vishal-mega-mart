@@ -297,3 +297,139 @@ exports.getOrderById = async (req, res) => {
     });
   }
 };
+
+// GET /api/orders/analytics/overview (admin only)
+exports.getOrderAnalytics = async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    const totalProductsCount = await Product.countDocuments();
+    const outOfStockCount = await Product.countDocuments({ stock: { $lte: 0 } });
+    const lowStockCount = await Product.countDocuments({ stock: { $gt: 0, $lte: 10 } });
+
+    // 1. Revenue Metrics
+    const deliveredOrders = orders.filter((o) => o.status === 'Delivered');
+    const validOrders = orders.filter((o) => o.status !== 'Cancelled');
+
+    const totalDeliveredRevenue = deliveredOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+    const grossBookings = validOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+
+    // 2. Today's Calculations (from local midnight)
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    const todayOrders = orders.filter((o) => new Date(o.createdAt) >= startOfToday);
+    const todayOrdersCount = todayOrders.length;
+    const todayDeliveredRevenue = todayOrders
+      .filter((o) => o.status === 'Delivered')
+      .reduce((sum, o) => sum + (o.total || 0), 0);
+    const todayGrossVolume = todayOrders
+      .filter((o) => o.status !== 'Cancelled')
+      .reduce((sum, o) => sum + (o.total || 0), 0);
+    const todayPendingCount = todayOrders.filter((o) => ['Pending', 'Processing'].includes(o.status)).length;
+
+    // 3. Average Order Value (AOV)
+    const averageOrderValue = validOrders.length > 0
+      ? Math.round(grossBookings / validOrders.length)
+      : 0;
+
+    // 4. Units Sold
+    let totalUnitsSold = 0;
+    const productStats = {};
+
+    validOrders.forEach((o) => {
+      if (Array.isArray(o.items)) {
+        o.items.forEach((it) => {
+          const qty = it.quantity || 1;
+          const price = it.price || 0;
+          totalUnitsSold += qty;
+
+          const key = it.name || (it.product_id ? it.product_id.toString() : 'Item');
+          if (!productStats[key]) {
+            productStats[key] = {
+              name: it.name || 'Grocery Item',
+              quantity: 0,
+              revenue: 0,
+              image_url: it.image_url || '',
+            };
+          }
+          productStats[key].quantity += qty;
+          productStats[key].revenue += price * qty;
+        });
+      }
+    });
+
+    const topSellingProducts = Object.values(productStats)
+      .sort((a, b) => b.quantity - a.quantity)
+      .slice(0, 5);
+
+    // 5. Status Breakdown
+    const statusCounts = {
+      Pending: { count: 0, revenue: 0 },
+      Processing: { count: 0, revenue: 0 },
+      Shipped: { count: 0, revenue: 0 },
+      Delivered: { count: 0, revenue: 0 },
+      Cancelled: { count: 0, revenue: 0 },
+    };
+
+    orders.forEach((o) => {
+      if (statusCounts[o.status]) {
+        statusCounts[o.status].count++;
+        statusCounts[o.status].revenue += (o.total || 0);
+      }
+    });
+
+    // 6. 7-Day Daily Trend
+    const dailyTrend = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+      const dayStart = new Date(d);
+      dayStart.setHours(0, 0, 0, 0);
+      const dayEnd = new Date(d);
+      dayEnd.setHours(23, 59, 59, 999);
+
+      const dayOrders = orders.filter((o) => {
+        const t = new Date(o.createdAt);
+        return t >= dayStart && t <= dayEnd && o.status !== 'Cancelled';
+      });
+
+      const dayRevenue = dayOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+      const dayLabel = dayStart.toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' });
+
+      dailyTrend.push({
+        date: dayStart.toISOString().split('T')[0],
+        label: dayLabel,
+        revenue: dayRevenue,
+        ordersCount: dayOrders.length,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      analytics: {
+        totalRevenue: totalDeliveredRevenue,
+        grossVolume: grossBookings,
+        totalOrdersCount: orders.length,
+        deliveredOrdersCount: deliveredOrders.length,
+        todaySales: todayDeliveredRevenue,
+        todayGrossVolume,
+        todayOrdersCount,
+        todayPendingCount,
+        averageOrderValue,
+        totalUnitsSold,
+        totalProductsCount,
+        outOfStockCount,
+        lowStockCount,
+        statusCounts,
+        topSellingProducts,
+        dailyTrend,
+      },
+    });
+  } catch (error) {
+    console.error('Get order analytics error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to compute store analytics',
+    });
+  }
+};
+
