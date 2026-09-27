@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Report - Vishal Mega Mart - TYBCA (Science)</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Crimson Pro', Georgia, serif;
+      background-color: #e2e8f0;
+      color: #0f172a;
+      line-height: 1.6;
+      font-size: 15pt;
+    }
+
+    /* Print Setup */
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+
+    @media print {
+      body {
+        background-color: transparent;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .page {
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: 2px solid #0f172a !important;
+        page-break-after: always !important;
+        height: 275mm !important;
+      }
+    }
+
+    /* Screen preview container */
+    .report-container {
+      max-width: 210mm;
+      margin: 20px auto;
+    }
+
+    /* Single A4 Page Container */
+    .page {
+      background: #ffffff;
+      width: 210mm;
+      min-height: 297mm;
+      padding: 16mm 18mm;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      border: 2.5px solid #0f172a;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .page-content {
+      flex: 1;
+    }
+
+    .page-footer {
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 11pt;
+      font-weight: 500;
+      color: #334155;
+      padding-top: 10px;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      color: #0f172a;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    h1.chapter-title {
+      font-size: 26pt;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    h2.section-title {
+      font-size: 18pt;
+      text-align: left;
+      margin-top: 15px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    h3.sub-section-title {
+      font-size: 15pt;
+      text-align: left;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+
+    p {
+      text-align: justify;
+      margin-bottom: 12px;
+      font-size: 14pt;
+      line-height: 1.55;
+    }
+
+    ul, ol {
+      margin-left: 28px;
+      margin-bottom: 12px;
+      font-size: 14pt;
+    }
+
+    li {
+      margin-bottom: 6px;
+      text-align: justify;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 16px 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 10pt;
+    }
+
+    th, td {
+      border: 1px solid #334155;
+      padding: 6px 10px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    td.status-pass {
+      font-weight: 700;
+      color: #15803d;
+      text-align: center;
+    }
+
+    /* Print Floating Toolbar */
+    .floating-bar {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      z-index: 1000;
+      background: #0f172a;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 30px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .btn-print {
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background 0.2s;
+    }
+    .btn-print:hover {
+      background: #b91c1c;
+    }
+
+    /* Center alignment helpers */
+    .text-center { text-align: center; }
+    .bold { font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Print Control (Screen Only) -->
+  <div class="floating-bar no-print">
+    <span>Vishal Mega Mart Project Report</span>
+    <button class="btn-print" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+
+  <div class="report-container">
+
+    <!-- ========================================================= -->
+    <!-- PAGE 1: TITLE PAGE -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content" style="display:flex; flex-direction:column; justify-content:space-between; height:100%; text-align:center;">
+        
+        <div>
+          <!-- University / College Seal Emblem Representation -->
+          <div style="margin: 10px auto 15px auto; width: 100px; height: 100px; border-radius: 50%; border: 3px double #0f172a; display: flex; align-items: center; justify-content: center; flex-direction:column;">
+            <div style="font-size: 26pt; font-weight: 900; color: #dc2626; line-height: 1;">V</div>
+            <div style="font-size: 8pt; font-family:'Inter',sans-serif; font-weight:700;">MES AGC</div>
+          </div>
+
+          <h2 style="font-size: 19pt; font-weight: 700; margin-bottom: 4px;">MES’ Abasaheb Garware College,</h2>
+          <p style="text-align: center; font-size: 13pt; margin-bottom: 25px; font-weight: 600;">Karve Road, Pune – 411004</p>
+
+          <h3 style="font-size: 14pt; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;">A PROJECT REPORT ON</h3>
+          <h1 style="font-size: 28pt; color: #dc2626; margin-bottom: 10px; font-weight: 900;">“Vishal Mega Mart”</h1>
+          <p style="text-align: center; font-size: 13pt; font-style: italic; color: #475569; margin-bottom: 25px;">
+            An E-Commerce Online Grocery Shopping & Order Fulfillment Management Platform
+          </p>
+        </div>
+
+        <div>
+          <p style="text-align: center; font-size: 13pt; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">
+            IN PARTIAL FULFILLMENT OF THE
+          </p>
+          <h2 style="font-size: 18pt; margin-bottom: 4px;">TYBCA (Science)</h2>
+          <p style="text-align: center; font-size: 14pt; font-weight: 700; margin-bottom: 2px;">
+            Savitribai Phule Pune University
+          </p>
+          <p style="text-align: center; font-size: 13pt; font-weight: 600; margin-bottom: 25px;">
+            2025–2026
+          </p>
+
+          <div style="margin-bottom: 20px;">
+            <p style="text-align: center; font-size: 12pt; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 1px;">SUBMITTED BY</p>
+            <p style="text-align: center; font-size: 14pt; margin-bottom: 2px; font-weight: 700;">Aryan Shinde <span style="font-weight: 400;">(13470)</span></p>
+            <p style="text-align: center; font-size: 14pt; margin-bottom: 2px; font-weight: 700;">Shravan Choudhary <span style="font-weight: 400;">(13461)</span></p>
+            <p style="text-align: center; font-size: 14pt; margin-bottom: 15px; font-weight: 700;">Vishal Dewasi <span style="font-weight: 400;">(13488)</span></p>
+          </div>
+
+          <p style="text-align: center; font-size: 14pt;">
+            Under the Guidance of: <span style="font-weight: 700;">Mrs. Aparna Gohad</span>
+          </p>
+        </div>
+
+      </div>
+      <div class="page-footer">1</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 2: INDEX -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">INDEX</h1>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 14%; text-align: center;">Sr. No</th>
+              <th style="width: 72%;">Contents</th>
+              <th style="width: 14%; text-align: center;">Page no.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="text-align: center; font-weight: 700;">I.</td><td>Acknowledgement</td><td style="text-align: center;">3</td></tr>
+            <tr><td style="text-align: center; font-weight: 700;">II.</td><td>College Certificate</td><td style="text-align: center;">4</td></tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">1.</td>
+              <td><b>Introduction</b><br>&nbsp;&nbsp;&nbsp;&nbsp;I. Existing System<br>&nbsp;&nbsp;&nbsp;&nbsp;II. Need of New System</td>
+              <td style="text-align: center;">5<br>5<br>6</td>
+            </tr>
+            <tr><td style="text-align: center; font-weight: 700;">2.</td><td><b>Problem Definition</b></td><td style="text-align: center;">7</td></tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">3.</td>
+              <td><b>Proposed System</b><br>&nbsp;&nbsp;&nbsp;&nbsp;I. Explanation<br>&nbsp;&nbsp;&nbsp;&nbsp;II. Methodology Used</td>
+              <td style="text-align: center;">9<br>9<br>10</td>
+            </tr>
+            <tr><td style="text-align: center; font-weight: 700;">4.</td><td><b>Scope of the System</b></td><td style="text-align: center;">12</td></tr>
+            <tr><td style="text-align: center; font-weight: 700;">5.</td><td><b>Hardware and Software Requirements</b></td><td style="text-align: center;">14</td></tr>
+            <tr><td style="text-align: center; font-weight: 700;">6.</td><td><b>Fact Finding Techniques</b></td><td style="text-align: center;">15</td></tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">7.</td>
+              <td><b>Feasibility Study</b><br>&nbsp;&nbsp;&nbsp;&nbsp;I. Operational<br>&nbsp;&nbsp;&nbsp;&nbsp;II. Technical<br>&nbsp;&nbsp;&nbsp;&nbsp;III. Economical</td>
+              <td style="text-align: center;">17<br>17<br>17<br>18</td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">8.</td>
+              <td><b>Diagrams</b><br>&nbsp;&nbsp;&nbsp;&nbsp;I. E-R Diagram<br>&nbsp;&nbsp;&nbsp;&nbsp;II. Use Case Diagram<br>&nbsp;&nbsp;&nbsp;&nbsp;III. Class Diagram<br>&nbsp;&nbsp;&nbsp;&nbsp;IV. Sequence Diagram</td>
+              <td style="text-align: center;">20<br>20<br>22<br>23<br>24</td>
+            </tr>
+            <tr><td style="text-align: center; font-weight: 700;">9.</td><td><b>Database Designing</b></td><td style="text-align: center;">25</td></tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">10.</td>
+              <td><b>Screen Designing</b><br>&nbsp;&nbsp;&nbsp;&nbsp;I. I/O Screen Designing<br>&nbsp;&nbsp;&nbsp;&nbsp;II. Output Formats</td>
+              <td style="text-align: center;">28<br>28<br>35</td>
+            </tr>
+            <tr><td style="text-align: center; font-weight: 700;">11.</td><td><b>Test Cases Design</b></td><td style="text-align: center;">36</td></tr>
+            <tr><td style="text-align: center; font-weight: 700;">12.</td><td><b>Limitations</b></td><td style="text-align: center;">39</td></tr>
+            <tr><td style="text-align: center; font-weight: 700;">13.</td><td><b>Conclusions and Future Enhancements</b></td><td style="text-align: center;">41</td></tr>
+            <tr><td style="text-align: center; font-weight: 700;">14.</td><td><b>Bibliography, References and Published work</b></td><td style="text-align: center;">43</td></tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="page-footer">2</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 3: ACKNOWLEDGEMENT -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title" style="margin-top: 30px; margin-bottom: 30px;">Acknowledgement</h1>
+
+        <p>
+          We would like to express our heartfelt gratitude to everyone who supported us throughout the development of our project, <b>Vishal Mega Mart</b>.
+        </p>
+
+        <p>
+          First and foremost, we extend our sincere appreciation to our project guide, <b>Mrs. Aparna Gohad</b>, for her invaluable guidance, constant encouragement, and insightful feedback. Her support throughout the development process helped us architect and build a production-quality, fully functional web application.
+        </p>
+
+        <p>
+          We also extend our sincere thanks to our Head of Department and all faculty members of the Computer Science department at <b>M.E.S. Abasaheb Garware College</b> for their encouragement and academic support.
+        </p>
+
+        <p>
+          Finally, we are grateful to each other as a team for the collaborative effort, dedication, and technical perseverance that made this project possible.
+        </p>
+
+        <br><br>
+        <p style="margin-bottom: 4px;"><b>With regards,</b></p>
+        <p style="margin-bottom: 2px;"><b>Aryan Shinde</b></p>
+        <p style="margin-bottom: 2px;"><b>Shravan Choudhary</b></p>
+        <p style="margin-bottom: 2px;"><b>Vishal Dewasi</b></p>
+
+      </div>
+      <div class="page-footer">3</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 4: CERTIFICATE -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content" style="text-align: center;">
+        
+        <div style="font-size: 11pt; font-family:'Inter',sans-serif; text-transform:uppercase; letter-spacing:1px; margin-bottom:2px;">
+          Maharashtra Education Society’s
+        </div>
+        <h2 style="font-size: 21pt; font-weight: 900; margin-bottom: 4px;">ABASAHEB GARWARE COLLEGE</h2>
+        <div style="font-size: 15pt; font-weight: 700; margin-bottom: 2px;">(Autonomous)</div>
+        <div style="font-size: 9.5pt; font-family:'Inter',sans-serif; color:#475569; margin-bottom: 15px;">
+          Karve Road, Deccan Gymkhana, Pune – 411 004, Maharashtra, India &nbsp;|&nbsp; Ph: 020-41038200<br>
+          Best College Award – Savitribai Phule Pune University &nbsp;|&nbsp; NAAC Re-Accredited ‘A’ Grade
+        </div>
+
+        <hr style="border-top: 2px solid #0f172a; margin-bottom: 25px;">
+
+        <h3 style="font-size: 18pt; text-transform: uppercase; margin-bottom: 30px; letter-spacing: 1px;">
+          Department of Computer Science
+        </h3>
+
+        <p style="text-align: left; font-size: 14pt; margin-bottom: 20px;">
+          This is to certify that a team of students,
+        </p>
+
+        <table style="width: 90%; margin: 0 auto 30px auto; font-size: 12pt; border: none;">
+          <tr style="border: none;">
+            <td style="border: none; width: 30%; font-weight: 700;">Seat No.</td>
+            <td style="border: none; width: 70%; font-weight: 700;">Name</td>
+          </tr>
+          <tr style="border: none;">
+            <td style="border: none;">1) 13470</td>
+            <td style="border: none;">Aryan Shinde</td>
+          </tr>
+          <tr style="border: none;">
+            <td style="border: none;">2) 13461</td>
+            <td style="border: none;">Shravan Choudhary</td>
+          </tr>
+          <tr style="border: none;">
+            <td style="border: none;">3) 13488</td>
+            <td style="border: none;">Vishal Dewasi</td>
+          </tr>
+        </table>
+
+        <p style="text-align: justify; font-size: 14pt; line-height: 1.6; margin-bottom: 35px;">
+          have successfully completed project work as a part of <b>T.Y.B.C.A. (Science)</b>, <b>SEM – VI</b> course under the guidance of <b>Mrs. Aparna Gohad</b> in the academic year <b>2025–26</b>.
+        </p>
+
+        <p style="text-align: left; font-size: 14pt; margin-bottom: 50px;">
+          <b>Project Title:</b> &nbsp; <span style="font-size: 15pt; color: #dc2626; font-weight: 800;">Vishal Mega Mart</span>
+        </p>
+
+        <table style="width: 100%; border: none; margin-top: 40px; font-family:'Crimson Pro',serif;">
+          <tr style="border: none;">
+            <td style="border: none; text-align: center; font-size: 14pt; font-weight: 700; width: 50%;">
+              ________________________<br>Project Guide
+            </td>
+            <td style="border: none; text-align: center; font-size: 14pt; font-weight: 700; width: 50%;">
+              ________________________<br>Head of Department
+            </td>
+          </tr>
+          <tr style="border: none;"><td colspan="2" style="border:none; height:45px;"></td></tr>
+          <tr style="border: none;">
+            <td style="border: none; text-align: center; font-size: 14pt; font-weight: 700; width: 50%;">
+              ________________________<br>Internal Examiner
+            </td>
+            <td style="border: none; text-align: center; font-size: 14pt; font-weight: 700; width: 50%;">
+              ________________________<br>External Examiner
+            </td>
+          </tr>
+        </table>
+
+      </div>
+      <div class="page-footer">4</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 5: INTRODUCTION -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Introduction</h1>
+
+        <p>
+          <b>Vishal Mega Mart</b> is a dynamic full-stack online grocery shopping and store management web application designed to connect consumers with household grocery staples through a responsive digital supermarket. The platform enables customers to explore product categories, search grocery items in real time, inspect product details, manage cart quantities, and place doorstep orders through <b>Cash on Delivery (COD)</b>.
+        </p>
+
+        <p>
+          On the operational side, the system introduces a comprehensive, role-based <b>Admin Command Portal</b>. Store managers use a modern sidebar navigation interface to inspect real-time sales intelligence, monitor today's incoming orders, update warehouse inventory stock, adjust prices, and advance orders through a multi-stage fulfillment pipeline (<code>Pending</code> &rarr; <code>Processing</code> &rarr; <code>Shipped</code> &rarr; <code>Delivered</code>).
+        </p>
+
+        <p>
+          The application follows clean architectural standards — separate route and controller files, strict <b>Zod schema validation</b> for authentication and password complexity, JWT middleware security, Mongoose data modeling, and automated inventory stock restoration upon order cancellation.
+        </p>
+
+        <h2 class="section-title">I. Existing System</h2>
+        <p>
+          Prior to this system, localized grocery stores and early web prototypes relied either on manual paper billing slips or static informational websites:
+        </p>
+        <ul>
+          <li><b>Hardcoded Static Catalogs</b>: Product lists, prices, and stock statuses were hardcoded into frontend HTML files. Any change required a software developer to modify source files and redeploy the website.</li>
+          <li><b>Manual Counter Records</b>: Customer orders were written manually on receipt paper pads, causing calculation errors and misplaced customer delivery slips.</li>
+          <li><b>No Stock Synchronization</b>: When items sold out on warehouse shelves, customers could still place orders, leading to failed fulfillments and customer frustration.</li>
+          <li><b>Zero Sales Intelligence</b>: Daily store sales and tender balances were calculated manually at closing time with no digital audit trail or category revenue breakdown.</li>
+        </ul>
+
+      </div>
+      <div class="page-footer">5</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 6: NEED OF NEW SYSTEM -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <p style="margin-bottom: 20px;">
+          Staff had no digital fulfillment tool, administrators had no dashboard to update inventory without modifying code, and customer records were managed informally with no structured security or database storage.
+        </p>
+
+        <h2 class="section-title">II. Need of New System</h2>
+        <p>
+          The following limitations of the existing manual and static setup identified the immediate need for a robust, dynamic solution:
+        </p>
+
+        <ul>
+          <li><b>Interactive Shopping Cart & Live Catalog</b>: Customers required a mobile-friendly catalog with instant search, category filtering, and real-time inventory stock indicators.</li>
+          <li><b>Exclusive Cash on Delivery (COD) Mechanism</b>: Avoided payment gateway drop-offs and high transaction fee overheads by implementing a verified doorstep Cash on Delivery flow with zero advance risk.</li>
+          <li><b>Strict Password & Input Validation (Zod)</b>: Strong verification requiring at least 8 alphanumeric characters to eliminate weak passwords and protect user accounts.</li>
+          <li><b>Secret Key Protected Admin Sign-up</b>: Secured admin account creation using a server-side secret security key (<code>ADMIN_SECURITY_KEY</code>), ensuring that unauthorized users cannot self-assign administrative roles.</li>
+          <li><b>Dynamic Admin Order Fulfillment Pipeline</b>: Store staff needed clear stage-by-stage progression controls (<code>Pack Order</code> &rarr; <code>Dispatch</code> &rarr; <code>Deliver & Collect COD</code>) with receipt inspection.</li>
+          <li><b>Automated Inventory Restocking</b>: When an order is cancelled, the system must automatically restore purchased item quantities back to catalog stock via MongoDB <code>$inc</code>.</li>
+          <li><b>Real-Time Sales & Revenue Analytics</b>: Store managers required live metrics (total delivered sales, today's sales, average order value, units sold, and 7-day daily trend) computed dynamically from real database records without simulated mock scripts.</li>
+        </ul>
+
+      </div>
+      <div class="page-footer">6</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 7: PROBLEM DEFINITION -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Problem Definition</h1>
+
+        <p>
+          In a fast-paced retail and grocery delivery environment, the absence of an integrated digital platform leads to operational bottlenecks that impact customer satisfaction and store profitability. The following specific problems were identified:
+        </p>
+
+        <h3 class="sub-section-title">1. No Dynamic Inventory & Price Management</h3>
+        <p>
+          Grocery prices and stock fluctuate daily. In static systems, updating prices or marking an item out of stock required editing source code and redeploying. This made catalog maintenance completely impractical for store owners without technical assistance.
+        </p>
+
+        <h3 class="sub-section-title">2. Inaccurate Stock Tracking & Over-Selling</h3>
+        <p>
+          Without automated database inventory counters, multiple customers could place orders for goods already out of stock, forcing staff to call customers to cancel orders or refund amounts.
+        </p>
+
+        <h3 class="sub-section-title">3. Vulnerable Authentication & Weak Passwords</h3>
+        <p>
+          Many basic applications lack runtime validation, permitting weak passwords, malformed emails, or unauthorized administrative registrations that expose sensitive sales and customer address records.
+        </p>
+
+        <h3 class="sub-section-title">4. Lack of Live Sales Intelligence</h3>
+        <p>
+          Store owners lacked real-time visibility into daily turnover, average order values, top-selling items, and order pipeline stages, leaving operational decisions to guesswork rather than live data.
+        </p>
+
+      </div>
+      <div class="page-footer">7</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 8: PROBLEM DEFINITION (CONT.) -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h3 class="sub-section-title">5. Payment Gateway Failures & Complicated Refunds</h3>
+        <p>
+          Online payment gateways introduce friction in localized grocery delivery due to network drops, OTP delivery failures, and refund processing delays. A transparent, verified Cash on Delivery model addresses these consumer concerns.
+        </p>
+
+        <h3 class="sub-section-title">6. Lost Inventory on Order Cancellation</h3>
+        <p>
+          In manual systems, cancelled orders often failed to have their reserved items credited back to shelf stock, resulting in cumulative discrepancies between ledger figures and actual warehouse inventory.
+        </p>
+
+        <br>
+        <p>
+          The proposed system, <b>Vishal Mega Mart</b>, directly resolves each of these problems through a full-stack dynamic web platform featuring role-based access control, reactive client components, Zod schema validation, an automated fulfillment pipeline, and live MongoDB aggregation analytics.
+        </p>
+
+      </div>
+      <div class="page-footer">8</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 9: PROPOSED SYSTEM -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Proposed System</h1>
+
+        <h2 class="section-title">I. Explanation</h2>
+        <p>
+          <b>Vishal Mega Mart</b> is built on the Node.js, Express.js, and MongoDB stack with a reactive vanilla JavaScript and Tailwind CSS frontend. It provides distinct capabilities across two operational roles:
+        </p>
+
+        <h3 class="sub-section-title">Customer Tier (Shopping Portal)</h3>
+        <ul>
+          <li><b>Real-Time Catalog Browsing</b>: Explore departments (Staples, Dairy, Beverages, Snacks, Household) with high-res photos and stock status badges.</li>
+          <li><b>Instant Keyword Search</b>: Find products by name or category without reloading the browser.</li>
+          <li><b>Reactive Shopping Cart</b>: Add items, update quantities, enforce maximum stock limits, and compute free delivery (waived for orders &ge; ₹499).</li>
+          <li><b>Doorstep Cash on Delivery (COD) Checkout</b>: Enter recipient shipping address and place orders with full order confirmation.</li>
+          <li><b>Order Tracking Ledger</b>: Review past orders with an interactive multi-step visual fulfillment stage progress bar.</li>
+        </ul>
+
+        <h3 class="sub-section-title">Administrator Tier (Admin Command Center)</h3>
+        <ul>
+          <li><b>Sidebar Shell</b>: Desktop sidebar and mobile drawer navigation across Sales Analytics, Today's Orders, and Catalogue.</li>
+          <li><b>Live Sales Analytics</b>: Real-time calculation of net delivered revenue, today's sales, average order value (AOV), total units sold, 7-day sales graph, and top-selling product ranking.</li>
+          <li><b>Today's Orders Pipeline</b>: Focused view of incoming orders with action buttons (<code>Pack Order</code>, <code>Dispatch</code>, <code>Deliver & Collect COD</code>, and <code>Cancel</code>).</li>
+          <li><b>Automated Inventory Restocking</b>: Cancelling an order automatically restores all items back to catalog stock in MongoDB.</li>
+        </ul>
+
+      </div>
+      <div class="page-footer">9</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 10: METHODOLOGY USED -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h2 class="section-title">II. Methodology Used</h2>
+        <p>
+          The <b>Iterative Development Methodology</b> was adopted for constructing Vishal Mega Mart. Rather than following a rigid waterfall sequence, the system was developed in iterative functional increments — each feature set was built, tested, and validated before commencing the next.
+        </p>
+
+        <h3 class="sub-section-title">Phase 1 — Requirement Analysis & Security Planning</h3>
+        <p>
+          Operational requirements were documented: inventory tracking, address capture, COD order management, role separation, and administrative security passkey verification.
+        </p>
+
+        <h3 class="sub-section-title">Phase 2 — System & Database Schema Design</h3>
+        <p>
+          Designed Mongoose data models for <code>User</code>, <code>Category</code>, <code>Product</code>, and <code>Order</code> with embedded item snapshots. Designed REST API endpoints following MVC architecture.
+        </p>
+
+        <h3 class="sub-section-title">Phase 3 — Iterative Development Sprints</h3>
+        <ul>
+          <li><b>Sprint 1 (Auth & Gatekeeping)</b>: JWT bearer token middleware, bcrypt password hashing, Zod schema validation, and <code>ADMIN_SECURITY_KEY</code> protection.</li>
+          <li><b>Sprint 2 (Catalog & Cart)</b>: Category and product CRUD endpoints, search filters, and reactive browser localStorage cart.</li>
+          <li><b>Sprint 3 (COD Checkout & Pipeline)</b>: Doorstep COD placement, shipping address validation, stock deduction, and customer order history.</li>
+          <li><b>Sprint 4 (Admin Dashboard & Analytics)</b>: Sidebar layout, Today's Orders view, 7-day trend graph, top products leaderboard, and auto-restock logic on cancellation.</li>
+        </ul>
+
+      </div>
+      <div class="page-footer">10</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 11: METHODOLOGY (CONT.) -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h3 class="sub-section-title">Phase 4 — Automated Testing & Quality Assurance</h3>
+        <p>
+          Comprehensive automated test suites were written in Node.js:
+        </p>
+        <ul>
+          <li><code>server/test-client.js</code>: Validated that all HTML pages (including custom <code>404.html</code>) and static client scripts serve with HTTP 200 OK.</li>
+          <li><code>server/test-api.js</code>: Automated verification of Zod auth rejection, admin security key gatekeeping, COD enforcement, state machine transitions, cancellation stock recovery, and live analytics computation.</li>
+          <li><b>Syntax & Emoji Auditing</b>: Node.js <code>vm.Script</code> compilation across all 20+ JS files and automated regex scanning confirming 0 emojis in code.</li>
+        </ul>
+
+        <h3 class="sub-section-title">Phase 5 — Packaging & Deployment Preparation</h3>
+        <p>
+          Created comprehensive <code>.gitignore</code> rules protecting environment variables (<code>server/.env</code>) and dependencies (<code>node_modules/</code>). Configured the application on local production port 5050 with MongoDB Atlas cloud connectivity.
+        </p>
+
+      </div>
+      <div class="page-footer">11</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 12: SCOPE OF THE SYSTEM -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Scope of the System</h1>
+
+        <h2 class="section-title">Functional Scope</h2>
+        <ul>
+          <li><b>Catalog Browsing & Search</b>: Real-time grocery items fetched from MongoDB with category pill filters and live keyword search.</li>
+          <li><b>Stock Status Alerts</b>: Instant visual badges (<code>In Stock</code>, <code>Low Stock ≤ 10</code>, <code>Out of Stock</code>).</li>
+          <li><b>Reactive Cart</b>: Real-time quantity adjustments with automatic free delivery computation above ₹499.</li>
+          <li><b>COD Checkout</b>: Doorstep Cash on Delivery order placement with complete address capture.</li>
+          <li><b>Order History & Tracking</b>: Customer past order ledger with visual fulfillment stage indicators.</li>
+          <li><b>Zod Validated Authentication</b>: Minimum 8-character alphanumeric password validation and administrative security key verification.</li>
+          <li><b>Admin Sidebar Command Center</b>: View switching across Sales Analytics, Today's Orders, and Catalogue.</li>
+          <li><b>Stage Progression & Auto-Restock</b>: Step-by-step fulfillment pipeline controls with automatic warehouse inventory restock upon order cancellation.</li>
+          <li><b>Live Business Analytics</b>: Dynamic calculation of net turnover, today's sales, average order value, total units sold, 7-day trend bar graph, and top-selling products leaderboard.</li>
+        </ul>
+
+        <h2 class="section-title">Technical Scope</h2>
+        <ul>
+          <li>REST API built with Node.js and Express.js adhering to MVC architecture.</li>
+          <li>MongoDB database with Mongoose ODM providing strict schema modeling.</li>
+          <li>JWT stateless authentication and bcrypt cryptographic password hashing.</li>
+        </ul>
+
+      </div>
+      <div class="page-footer">12</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 13: TECHNICAL SCOPE & OUT OF SCOPE -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <ul>
+          <li>Zod runtime validation library for server-side schema parsing and structured error reporting.</li>
+          <li>Responsive user interface styled with Tailwind CSS utility classes and modern SVG iconography (0 emojis).</li>
+          <li>Branded <code>404.html</code> error page served on all unmapped routes.</li>
+        </ul>
+
+        <h2 class="section-title">Out of Scope</h2>
+        <ul>
+          <li><b>Online Card / Payment Gateway Integration</b>: The system focuses strictly on Cash on Delivery (COD) to eliminate payment drop-offs and transaction fee deductions.</li>
+          <li><b>Live Courier GPS Map Tracking</b>: Order delivery stages are updated manually by store staff rather than through real-time GPS tracking.</li>
+          <li><b>Native Mobile Application</b>: Dedicated Android/iOS apps are not included; the platform is engineered as a mobile-first responsive web application accessible in any mobile browser.</li>
+          <li><b>Multi-Vendor Marketplace</b>: The platform is built for single-store supermarket operations and does not partition multi-merchant stores.</li>
+        </ul>
+
+      </div>
+      <div class="page-footer">13</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 14: REQUIREMENTS -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Hardware and Software Requirements</h1>
+
+        <h2 class="section-title">Hardware Requirements</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 30%;">Component</th>
+              <th style="width: 70%;">Specification</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><b>Processor</b></td><td>Intel Core i3 / AMD Ryzen 3 / Apple M1 or equivalent (min)</td></tr>
+            <tr><td><b>RAM</b></td><td>4 GB RAM or more</td></tr>
+            <tr><td><b>Storage</b></td><td>5 GB free disk space</td></tr>
+            <tr><td><b>Internet Connection</b></td><td>Broadband / Wi-Fi connection for cloud database access</td></tr>
+            <tr><td><b>Display</b></td><td>Any standard monitor, laptop, or mobile screen (min 1024&times;768)</td></tr>
+            <tr><td><b>Operating System</b></td><td>Windows 10/11, macOS, or any Linux distribution</td></tr>
+          </tbody>
+        </table>
+
+        <h2 class="section-title">Software Requirements</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 30%;">Category</th>
+              <th style="width: 70%;">Tool / Technology</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><b>Frontend Language</b></td><td>HTML5, CSS3, Vanilla JavaScript (ES6+)</td></tr>
+            <tr><td><b>UI Styling</b></td><td>Tailwind CSS (Utility Framework CDN)</td></tr>
+            <tr><td><b>Backend Runtime</b></td><td>Node.js (v18.x or v20.x LTS)</td></tr>
+            <tr><td><b>Backend Framework</b></td><td>Express.js (REST API, MVC Architecture)</td></tr>
+            <tr><td><b>Database</b></td><td>MongoDB (NoSQL Document Database / Atlas Cloud)</td></tr>
+            <tr><td><b>Object Data Mapper</b></td><td>Mongoose (Schema Validation & Modeling)</td></tr>
+            <tr><td><b>Authentication</b></td><td>JSON Web Tokens (JWT), bcryptjs (salt rounds = 10)</td></tr>
+            <tr><td><b>Schema Validation</b></td><td>Zod (Runtime Request Validation)</td></tr>
+            <tr><td><b>Version Control</b></td><td>Git, GitHub</td></tr>
+            <tr><td><b>Development Tools</b></td><td>Visual Studio Code, Postman, Node CLI</td></tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="page-footer">14</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 15: FACT FINDING TECHNIQUES -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Fact Finding Techniques</h1>
+
+        <p>
+          The following fact-finding techniques were employed during the initial phase of the project to understand grocery retail operations and customer checkout habits:
+        </p>
+
+        <h3 class="sub-section-title">1. Observation</h3>
+        <p>
+          The team directly observed billing operations at local grocery stores and supermarkets. By watching counter staff write items on paper slips, calculate totals manually, and check physical shelves for stock availability, key operational bottlenecks were identified. It became clear that instant stock availability badges, automatic total calculation, and free delivery threshold cues were essential.
+        </p>
+
+        <h3 class="sub-section-title">2. Interviews</h3>
+        <p>
+          Discussions were held with supermarket store managers and regular grocery shoppers:
+        </p>
+        <ul>
+          <li><b>Store Managers</b>: Emphasized that order cancellations happen frequently, and staff often forget to manually restock cancelled items, leading to warehouse inventory discrepancies. This directly inspired our <b>Automated Stock Restock on Cancellation</b> feature.</li>
+          <li><b>Shoppers</b>: Expressed strong preference for Cash on Delivery (COD) for daily grocery essentials to avoid banking OTP failures and payment gateway timeouts.</li>
+        </ul>
+
+      </div>
+      <div class="page-footer">15</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 16: FACT FINDING (CONT.) -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h3 class="sub-section-title">3. Prototype Review</h3>
+        <p>
+          Interactive UI wireframes were built and reviewed iteratively by team members and academic evaluators. This review led directly to replacing long stacked forms with the dedicated <b>Admin Sidebar Navigation Shell</b>, adding the <b>Today's Orders</b> filter toggle, and developing the itemized receipt modal with stage progress timeline.
+        </p>
+
+        <h3 class="sub-section-title">4. Document Study</h3>
+        <p>
+          Retail grocery tax invoices and delivery challans were studied to determine required data attributes: unit prices, quantity multipliers, itemized line totals, delivery fee exemptions (orders &ge; ₹499), and recipient address fields with postal PIN codes.
+        </p>
+
+      </div>
+      <div class="page-footer">16</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 17: FEASIBILITY STUDY -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Feasibility Study</h1>
+
+        <p>
+          A feasibility study was conducted prior to development to evaluate whether the proposed platform could be built effectively within time, technological, and budget constraints.
+        </p>
+
+        <h2 class="section-title">I. Operational Feasibility</h2>
+        <p>
+          The system is operationally viable across both user groups:
+        </p>
+        <ul>
+          <li><b>Customers</b>: Access the catalog on any browser without software installation. Clear categories, intuitive search, and one-tap checkout require zero technical skill.</li>
+          <li><b>Store Staff & Administrators</b>: The Admin Portal uses prominent action buttons (<code>Pack Order</code>, <code>Dispatch</code>, <code>Deliver & Collect COD</code>), color-coded status badges, and visual sales graphs. Complex operations like database indexing, JWT token decoding, and stock updates happen automatically behind the scenes.</li>
+        </ul>
+
+        <h2 class="section-title">II. Technical Feasibility</h2>
+        <p>
+          All technologies used in Vishal Mega Mart are mature, actively maintained, and open-source:
+        </p>
+        <ul>
+          <li><b>Node.js & Express.js</b>: High-performance, non-blocking I/O ideal for handling concurrent customer shopping and administrative requests.</li>
+          <li><b>MongoDB & Mongoose</b>: Scalable document storage that maps naturally to JSON REST API payloads and supports rich aggregation queries.</li>
+          <li><b>Tailwind CSS & Vanilla JavaScript</b>: Highly optimized frontend without heavy client build chains, providing fast page load speeds and mobile responsiveness.</li>
+        </ul>
+
+      </div>
+      <div class="page-footer">17</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 18: FEASIBILITY STUDY (CONT.) -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h2 class="section-title">III. Economical Feasibility</h2>
+        <p>
+          The project is highly economically feasible:
+        </p>
+        <ul>
+          <li><b>Zero Licensing Costs</b>: All software components (Node.js, Express, MongoDB Community/Atlas, Tailwind CSS, Zod, Git) are open-source and free of charge.</li>
+          <li><b>Cloud Hosting Free Tiers</b>: The application can run on cloud platforms (Render / Railway / Vercel) alongside MongoDB Atlas Free Tier (512 MB storage), incurring <b>₹0 / month</b> infrastructure expense during academic development and prototype deployment.</li>
+          <li><b>Reduced Operational Overhead</b>: Replacing physical stationery bill books and preventing inventory stock leakage provides immediate operational cost savings for grocery store operators.</li>
+        </ul>
+
+        <br>
+        <p>
+          The total monetary development cost for this project is effectively zero, making it highly economically feasible for academic submission and commercial deployment.
+        </p>
+
+      </div>
+      <div class="page-footer">18</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 19: BLANK TRANSITION -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content" style="display: flex; align-items: center; justify-content: center; height: 100%;">
+        <div style="text-align: center;">
+          <h1 style="font-size: 28pt; margin-bottom: 15px; color: #dc2626;">SYSTEM DIAGRAMS</h1>
+          <p style="font-size: 15pt; color: #64748b;">
+            Entity-Relationship Diagram &bull; Use Case Diagram &bull; Class Diagram &bull; Sequence Diagram
+          </p>
+        </div>
+      </div>
+      <div class="page-footer">19</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 20: ER DIAGRAM -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">ER Diagram</h1>
+
+        <!-- ASCII / Box Representation of E-R Model -->
+        <div style="font-family:'Courier New', monospace; font-size:10pt; line-height:1.25; background:#f8fafc; border:1px solid #cbd5e1; padding:15px; border-radius:8px; margin-bottom:15px; overflow-x:auto;">
++---------------+                 +---------------+
+|     USERS     |                 |  CATEGORIES   |
++---------------+                 +---------------+
+| *_id          |                 | *_id          |
+|  name         |                 |  name         |
+|  email        |                 |  image_url    |
+|  password     |                 |  createdAt    |
+|  role         |                 +-------+-------+
+|  createdAt    |                         |
++-------+-------+                         | (1:N)
+        |                                 v
+        | (1:N)                   +---------------+
+        v                         |   PRODUCTS    |
++---------------+                 +---------------+
+|    ORDERS     |                 | *_id          |
++---------------+                 |  category_id  |
+| *_id          |                 |  name         |
+|  customer_id  |                 |  price        |
+|  total        | (contains)      |  stock        |
+|  payment_meth |---------------->|  image_url    |
+|  status       | (Snapshot N:M)  |  description  |
+|  address      |                 |  createdAt    |
+|  createdAt    |                 +---------------+
++---------------+
+        </div>
+
+        <p>
+          The Entity-Relationship Diagram for <b>Vishal Mega Mart</b> consists of four core database entities. Primary keys are marked with an asterisk (*):
+        </p>
+
+        <h3 class="sub-section-title">Relationships:</h3>
+        <ul>
+          <li><b>USERS places ORDERS (1:N)</b>: A customer can place multiple orders over time. Each order is linked to exactly one user account via <code>customer_id</code>.</li>
+          <li><b>CATEGORIES classifies PRODUCTS (1:N)</b>: One category (e.g. *Staples*) contains multiple products. Each product references its category via <code>category_id</code>.</li>
+          <li><b>ORDERS contains PRODUCTS (N:M via Embedded Snapshot)</b>: An order contains multiple products, and each product appears in multiple orders. This is handled using an embedded <code>items</code> subdocument array capturing price snapshots so historical order totals remain immutable.</li>
+        </ul>
+
+      </div>
+      <div class="page-footer">20</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 21: ER ENTITY ATTRIBUTES -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h2 class="section-title">Entity Attributes & Keys</h2>
+
+        <p><b>1. USERS</b></p>
+        <p>Attributes: <u>_id</u> (PK), name, email, password, role, createdAt, updatedAt.</p>
+
+        <p><b>2. CATEGORIES</b></p>
+        <p>Attributes: <u>_id</u> (PK), name, image_url, createdAt, updatedAt.</p>
+
+        <p><b>3. PRODUCTS</b></p>
+        <p>Attributes: <u>_id</u> (PK), category_id (FK), name, price, stock, image_url, description, createdAt, updatedAt.</p>
+
+        <p><b>4. ORDERS</b></p>
+        <p>Attributes: <u>_id</u> (PK), customer_id (FK), items [product_id, name, price, quantity, image_url], total, address [fullName, phone, street, city, state, pinCode], payment_method, status, createdAt, updatedAt.</p>
+
+      </div>
+      <div class="page-footer">21</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 22: USE CASE DIAGRAM -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Use Case Diagram</h1>
+
+        <!-- ASCII Use Case Representation -->
+        <div style="font-family:'Courier New', monospace; font-size:10pt; line-height:1.25; background:#f8fafc; border:1px solid #cbd5e1; padding:15px; border-radius:8px; margin-bottom:15px; overflow-x:auto;">
+                 +---------------------------------------------+
+                 |            Vishal Mega Mart System          |
+                 |                                             |
+   (Customer)    |  ( ) Browse Catalog & Filter Categories     |
+      |          |  ( ) Search Products in Real-Time           |
+      +--------->|  ( ) Manage Cart Quantities                 |
+      |          |  ( ) Place COD Order                        |
+      +--------->|  ( ) Track Past Order History               |
+      |          |  ( ) Register / Login (Zod Validated)       |
+      |          |                                             |
+                 |  ( ) View Live Sales & Revenue Analytics    |<-------+
+                 |  ( ) Manage Today's Orders Pipeline         |<-------|  (Administrator)
+                 |  ( ) Progress Order Status & Auto-Restock   |<-------+      |
+                 |  ( ) Add, Edit & Delete Products            |<-------+------+
+                 |  ( ) Create Product Categories              |<-------+
+                 +---------------------------------------------+
+        </div>
+
+        <p>
+          The Use Case Diagram illustrates two actors — <b>Customer</b> and <b>Administrator</b> — and their interactions with the Vishal Mega Mart system.
+        </p>
+
+        <ul>
+          <li><b>Customer Actor</b>: Can browse groceries, search products, update cart quantities, register/login, place Cash on Delivery orders, and track order fulfillment history.</li>
+          <li><b>Administrator Actor</b>: Must authenticate through the admin security key; monitors real-time sales intelligence; advances orders through fulfillment stages; and manages catalog items and categories.</li>
+        </ul>
+
+      </div>
+      <div class="page-footer">22</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 23: CLASS DIAGRAM -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Class Diagram</h1>
+
+        <!-- Box representation of Class Diagram -->
+        <div style="font-family:'Courier New', monospace; font-size:9.5pt; line-height:1.2; background:#f8fafc; border:1px solid #cbd5e1; padding:12px; border-radius:8px; margin-bottom:15px; overflow-x:auto;">
++-----------------------+           +-----------------------+
+|         User          |           |       Category        |
++-----------------------+           +-----------------------+
+| -_id: ObjectId        |           | -_id: ObjectId        |
+| -name: String         |           | -name: String         |
+| -email: String        |           | -image_url: String    |
+| -password: String     |           +-----------------------+
+| -role: String         |           | +getAllCategories()   |
++-----------------------+           | +createCategory()     |
+| +register()           |           +-----------+-----------+
+| +login()              |                       | (1:N)
++-----------+-----------+                       v
+            | (1:N)                 +-----------------------+
+            v                       |        Product        |
++-----------------------+           +-----------------------+
+|         Order         |           | -_id: ObjectId        |
++-----------------------+           | -category_id: ObjectId|
+| -_id: ObjectId        |           | -name: String         |
+| -customer_id: ObjectId|           | -price: Number        |
+| -items: OrderItem[]   |           | -stock: Number        |
+| -total: Number        |           | -image_url: String    |
+| -status: String       |           +-----------------------+
+| -payment_method: String           | +getProducts()        |
++-----------------------+           | +adjustStock(delta)   |
+| +createOrder()        |           +-----------------------+
+| +updateStatus()       |
+| +restoreStockOnCancel |
++-----------------------+
+        </div>
+
+        <p>
+          The UML Class Diagram specifies four primary domain models. Attributes are marked private (–) and methods are marked public (+). The <code>Order</code> class encapsulates <code>OrderItem</code> snapshots referencing <code>Product</code> to preserve historical price integrity.
+        </p>
+
+      </div>
+      <div class="page-footer">23</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 24: SEQUENCE DIAGRAM -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Sequence Diagram</h1>
+
+        <!-- Sequence diagram representation -->
+        <div style="font-family:'Courier New', monospace; font-size:9.5pt; line-height:1.3; background:#f8fafc; border:1px solid #cbd5e1; padding:15px; border-radius:8px; margin-bottom:15px; overflow-x:auto;">
+Customer       Browser (checkout.js)     Express API        Auth / DB
+   |                    |                     |                 |
+   |-- 1. Click Place ->|                     |                 |
+   |      COD Order     |-- 2. POST /orders ->|                 |
+   |                    |      (Payload + JWT)|-- 3. Verify --->|
+   |                    |                     |      Token      |
+   |                    |                     |<-- 4. Valid ----|
+   |                    |                     |-- 5. Check Stock|
+   |                    |                     |-- 6. Decr Stock |
+   |                    |                     |-- 7. Save Order |
+   |                    |                     |<-- 8. Order Doc-|
+   |                    |<-- 9. HTTP 201 -----|                 |
+   |<-- 10. Redirect ---|      Created        |                 |
+   |    to orders.html  |                     |                 |
+        </div>
+
+        <p>
+          The Sequence Diagram illustrates the interaction flow when a customer submits a Cash on Delivery order:
+        </p>
+        <ol>
+          <li>Customer confirms shipping address and clicks "Place Order" with COD.</li>
+          <li>Client sends <code>POST /api/orders</code> with the JWT Authorization token.</li>
+          <li>Authentication middleware verifies token signature and user identity.</li>
+          <li>Order Controller validates stock availability, deducts purchased quantities from catalog items, and saves the new order document with status <code>Pending</code>.</li>
+          <li>Client receives HTTP 201 Created response, flushes the cart in <code>localStorage</code>, and redirects the user to <code>orders.html</code>.</li>
+        </ol>
+
+      </div>
+      <div class="page-footer">24</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 25: DATABASE DESIGNING -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Database Designing</h1>
+
+        <p>
+          <b>Vishal Mega Mart</b> uses <b>MongoDB</b> with <b>Mongoose ODM</b> for schema validation and object modeling. The database comprises four primary collections:
+        </p>
+
+        <h2 class="section-title">1. users</h2>
+        <p>Stores customer credentials and administrators. Admin accounts require a secret security key upon registration.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 20%;">Field</th>
+              <th style="width: 15%;">Type</th>
+              <th style="width: 25%;">Constraints</th>
+              <th style="width: 40%;">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>_id</code></td><td>ObjectId</td><td>PK, auto-generated</td><td>Unique user document identifier</td></tr>
+            <tr><td><code>name</code></td><td>String</td><td>required, trim</td><td>Full name of the customer or admin</td></tr>
+            <tr><td><code>email</code></td><td>String</td><td>required, unique, lower</td><td>Login email address (indexed)</td></tr>
+            <tr><td><code>password</code></td><td>String</td><td>required, min: 8</td><td>Bcrypt-hashed password string</td></tr>
+            <tr><td><code>role</code></td><td>String</td><td>enum: [customer, admin]</td><td>Access control authorization role</td></tr>
+            <tr><td><code>createdAt</code></td><td>Date</td><td>auto (timestamps: true)</td><td>Account creation timestamp</td></tr>
+          </tbody>
+        </table>
+
+        <h2 class="section-title">2. categories</h2>
+        <p>Stores departmental categories for grocery classification.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 20%;">Field</th>
+              <th style="width: 15%;">Type</th>
+              <th style="width: 25%;">Constraints</th>
+              <th style="width: 40%;">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>_id</code></td><td>ObjectId</td><td>PK, auto-generated</td><td>Unique category identifier</td></tr>
+            <tr><td><code>name</code></td><td>String</td><td>required, unique, trim</td><td>Department name (e.g. *Dairy & Bakery*)</td></tr>
+            <tr><td><code>image_url</code></td><td>String</td><td>required, trim</td><td>Category promotional photo URL</td></tr>
+            <tr><td><code>createdAt</code></td><td>Date</td><td>auto (timestamps: true)</td><td>Category creation timestamp</td></tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="page-footer">25</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 26: DATABASE DESIGNING (CONT.) -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h2 class="section-title">3. products</h2>
+        <p>Stores grocery catalog items with prices, warehouse inventory stock, and imagery.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 22%;">Field</th>
+              <th style="width: 15%;">Type</th>
+              <th style="width: 23%;">Constraints</th>
+              <th style="width: 40%;">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>_id</code></td><td>ObjectId</td><td>PK, auto-generated</td><td>Unique product identifier</td></tr>
+            <tr><td><code>name</code></td><td>String</td><td>required, trim</td><td>Product name</td></tr>
+            <tr><td><code>category_id</code></td><td>ObjectId</td><td>required, ref: Category</td><td>Foreign key to category</td></tr>
+            <tr><td><code>price</code></td><td>Number</td><td>required, min: 0</td><td>Selling price in INR (₹)</td></tr>
+            <tr><td><code>stock</code></td><td>Number</td><td>required, min: 0</td><td>Available warehouse units</td></tr>
+            <tr><td><code>image_url</code></td><td>String</td><td>required, trim</td><td>External image URL</td></tr>
+            <tr><td><code>description</code></td><td>String</td><td>optional, trim</td><td>Product description and weight</td></tr>
+            <tr><td><code>createdAt</code></td><td>Date</td><td>auto (timestamps: true)</td><td>Date product added</td></tr>
+          </tbody>
+        </table>
+
+        <h2 class="section-title">4. orders</h2>
+        <p>Records all customer orders with embedded item snapshots, shipping addresses, and status history.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 22%;">Field</th>
+              <th style="width: 15%;">Type</th>
+              <th style="width: 23%;">Constraints</th>
+              <th style="width: 40%;">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>_id</code></td><td>ObjectId</td><td>PK, auto-generated</td><td>Unique order reference identifier</td></tr>
+            <tr><td><code>customer_id</code></td><td>ObjectId</td><td>required, ref: User</td><td>Reference to customer account</td></tr>
+            <tr><td><code>items[]</code></td><td>Array</td><td>required, non-empty</td><td>Embedded items subdocuments</td></tr>
+            <tr><td><code>items.price</code></td><td>Number</td><td>required (snapshot)</td><td>Price at time of purchase</td></tr>
+            <tr><td><code>items.quantity</code></td><td>Number</td><td>required, min: 1</td><td>Units purchased</td></tr>
+            <tr><td><code>total</code></td><td>Number</td><td>required, min: 0</td><td>Final order invoice total in INR</td></tr>
+            <tr><td><code>payment_method</code></td><td>String</td><td>enum: ['COD']</td><td>Payment method (Cash on Delivery)</td></tr>
+            <tr><td><code>status</code></td><td>String</td><td>enum: [Pending..]</td><td>Fulfillment pipeline status</td></tr>
+            <tr><td><code>address</code></td><td>Object</td><td>required</td><td>Shipping address object</td></tr>
+            <tr><td><code>createdAt</code></td><td>Date</td><td>auto (timestamps: true)</td><td>Order timestamp</td></tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="page-footer">26</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 27: DATABASE DESIGNING (INDEXES) -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h2 class="section-title">Database Indexing & Performance</h2>
+
+        <p>
+          To maintain high query throughput under concurrent operations, the following indexes are defined on MongoDB collections:
+        </p>
+
+        <ul>
+          <li><b><code>users.email</code> (Unique Index)</b>: Prevents duplicate customer registrations and accelerates user lookup during login authentication.</li>
+          <li><b><code>products.category_id</code> (Single Field Index)</b>: Speeds up catalog filtering when customers select specific departments (e.g. *Staples* or *Snacks*).</li>
+          <li><b><code>products.name</code> (Text Index)</b>: Enables fast, case-insensitive keyword searching across grocery titles.</li>
+          <li><b><code>orders.customer_id</code> & <code>orders.createdAt</code> (Compound Index)</b>: Optimizes retrieval of customer order history sorted chronologically.</li>
+          <li><b><code>orders.status</code> & <code>orders.createdAt</code></b>: Accelerates admin pipeline queries for today's orders and real-time sales aggregation.</li>
+        </ul>
+
+      </div>
+      <div class="page-footer">27</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 28: SCREEN DESIGNING -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Screen Designing</h1>
+
+        <h2 class="section-title">I. I/O Screen Designing</h2>
+        <p>
+          <b>Vishal Mega Mart</b> features 9 key screens across its customer shopping and administrative portals:
+        </p>
+
+        <h3 class="sub-section-title">1. Homepage (<code>client/index.html</code>)</h3>
+        <p>
+          <b>Input</b>: Department selection, search keywords, navbar navigation clicks.<br>
+          <b>Output</b>: Hero promotional banner, category pill buttons, featured products grid with live stock badges, shopping cart counter, and brand trust badges.
+        </p>
+
+        <h3 class="sub-section-title">2. Products Catalog (<code>client/products.html</code>)</h3>
+        <p>
+          <b>Input</b>: Category filter dropdown, price sorting toggle, search keywords.<br>
+          <b>Output</b>: Responsive grid of grocery products with dynamic price in ₹, category tags, stock status badges (<code>In Stock</code>, <code>Low Stock</code>, <code>Out of Stock</code>), and one-tap Add to Cart buttons.
+        </p>
+
+        <h3 class="sub-section-title">3. Single Product View (<code>client/product.html</code>)</h3>
+        <p>
+          <b>Input</b>: URL parameter <code>?id=&lt;productId&gt;</code>, quantity increment/decrement.<br>
+          <b>Output</b>: Product image, title, price, available stock counter, description, quantity selector, and Buy Now / Add to Cart actions.
+        </p>
+
+      </div>
+      <div class="page-footer">28</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 29: SCREEN DESIGNING (CONT.) -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h3 class="sub-section-title">4. Shopping Cart (<code>client/cart.html</code>)</h3>
+        <p>
+          <b>Input</b>: Quantity adjustment buttons (+ / -), remove item click, clear cart.<br>
+          <b>Output</b>: Itemized table of selected groceries, unit prices, line totals, free delivery progress bar (&ge; ₹499 free, else ₹40), subtotal, and Proceed to Checkout button.
+        </p>
+
+        <h3 class="sub-section-title">5. Checkout Page (<code>client/checkout.html</code>)</h3>
+        <p>
+          <b>Input</b>: Shipping address fields (Full Name, Phone Number, Street Address, City, State, PIN Code).<br>
+          <b>Output</b>: Address form, exclusive Cash on Delivery (COD) payment card highlighting doorstep verification, order summary breakdown, and Place Order button.
+        </p>
+
+        <h3 class="sub-section-title">6. Customer Order History (<code>client/orders.html</code>)</h3>
+        <p>
+          <b>Input</b>: Customer navigation to Orders view.<br>
+          <b>Output</b>: Chronological list of past orders showing `#Reference ID`, date placed, itemized product snapshot, COD amount collected, and multi-step fulfillment tracker.
+        </p>
+
+        <h3 class="sub-section-title">7. Authentication Portal (<code>client/login.html</code>)</h3>
+        <p>
+          <b>Input</b>: Full name, email, password, role toggle, admin security key.<br>
+          <b>Output</b>: Real-time Zod validation feedback (8+ alphanumeric characters), sign-in/sign-up tab toggle, error toasts, and JWT token session initialization.
+        </p>
+
+      </div>
+      <div class="page-footer">29</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 30: SCREEN DESIGNING (ADMIN COMMAND CENTER) -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h3 class="sub-section-title">8. Admin Command Center (<code>client/admin.html</code>)</h3>
+        <p>
+          Features a fixed desktop sidebar navigation shell and mobile drawer with three operational views:
+        </p>
+
+        <ul>
+          <li><b>View 1: Sales Analytics</b>:
+            <br>&bull; Real-time KPI cards: Total Delivered Revenue, Today's Sales, Average Order Value (AOV), and Groceries Units Sold.
+            <br>&bull; 7-Day Revenue Trend: Daily sales velocity bar graph computed directly from live MongoDB orders.
+            <br>&bull; Pipeline Status Distribution: Horizontal percentage bars for Pending, Processing, Shipped, Delivered, and Cancelled.
+            <br>&bull; Top-Selling Products Leaderboard: Ranked by actual units purchased in real customer orders.
+          </li>
+          <li><b>View 2: Today's Orders Pipeline</b>:
+            <br>&bull; Scope toggle between "Today's Orders" and "All Store Orders".
+            <br>&bull; Real-time search by order ID, customer name, phone, or city.
+            <br>&bull; Status filter tabs (All, Pending, Processing, Shipped, Delivered, Cancelled) with live count badges.
+            <br>&bull; Action progression buttons: <code>Pack Order</code> &rarr; <code>Dispatch</code> &rarr; <code>Deliver & Collect COD</code>, and <code>Cancel</code> (with automated inventory restock).
+            <br>&bull; Order Receipt Modal: Detailed receipt showing timeline, customer details, delivery address, and line-item breakdown.
+          </li>
+          <li><b>View 3: Catalogue Management</b>:
+            <br>&bull; Inventory health cards (Total items, In Stock, Low Stock &le; 10, Out of Stock).
+            <br>&bull; Add Product form card with category selector, price, stock, image URL, and description.
+            <br>&bull; Products table with Edit modal and Delete actions.
+          </li>
+        </ul>
+
+      </div>
+      <div class="page-footer">30</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 31: SCREEN DESIGNING (404 PAGE) -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h3 class="sub-section-title">9. Custom 404 Page (<code>client/404.html</code>)</h3>
+        <p>
+          <b>Input</b>: Any invalid or unmapped browser URL path.<br>
+          <b>Output</b>: Branded supermarket illustration, helpful error message, search input, and quick navigation buttons to return to Homepage, Products Catalog, or Cart.
+        </p>
+
+        <h2 class="section-title">II. Output Formats</h2>
+        <ul>
+          <li><b>JSON Responses from REST API</b>: All data exchanged between frontend JavaScript and backend Express controllers is formatted in standard JSON with <code>success: true/false</code> and detailed payloads.</li>
+          <li><b>HTML & Tailwind Rendering</b>: The browser dynamically renders JSON responses into styled HTML components without page reloads.</li>
+          <li><b>Real-Time Analytics Summary</b>: Computed via <code>GET /api/orders/analytics/overview</code>, delivering live revenue figures, today's sales, status counts, 7-day trend arrays, and product ranking.</li>
+        </ul>
+
+      </div>
+      <div class="page-footer">31</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 32: TEST CASES DESIGN -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Test Cases Design</h1>
+
+        <h2 class="section-title">1. Authentication & Zod Schema Validation</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 14%;">TC ID</th>
+              <th style="width: 26%;">Test Scenario</th>
+              <th style="width: 32%;">Test Steps</th>
+              <th style="width: 18%;">Expected Result</th>
+              <th style="width: 10%;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>TC-01</b></td>
+              <td>Valid Customer Registration</td>
+              <td>1. Enter valid name, email & password (8+ alphanumeric)<br>2. Submit form</td>
+              <td>HTTP 201 Created. User saved. JWT issued.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-02</b></td>
+              <td>Short Password (< 8 chars)</td>
+              <td>1. Enter password: "Pass1"<br>2. Submit</td>
+              <td>HTTP 400. Zod: Password &ge; 8 characters.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-03</b></td>
+              <td>Password without numbers</td>
+              <td>1. Enter password: "PasswordOnly"<br>2. Submit</td>
+              <td>HTTP 400. Zod: Password must contain a number.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-04</b></td>
+              <td>Password without letters</td>
+              <td>1. Enter password: "12345678"<br>2. Submit</td>
+              <td>HTTP 400. Zod: Password must contain a letter.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-05</b></td>
+              <td>Invalid Email</td>
+              <td>1. Enter email: "notanemail"<br>2. Submit</td>
+              <td>HTTP 400. Zod: Invalid email format.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-06</b></td>
+              <td>Admin Signup (Invalid Key)</td>
+              <td>1. Role: admin, Key: "wrong"<br>2. Submit</td>
+              <td>HTTP 403 Forbidden. Key rejected.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-07</b></td>
+              <td>Admin Signup (Valid Key)</td>
+              <td>1. Role: admin, Key: "vmm_admin_secret_pass_2025"<br>2. Submit</td>
+              <td>HTTP 201 Created. Role: admin.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="page-footer">32</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 33: TEST CASES (CATALOG & CART) -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h2 class="section-title">2. Catalog & Product Inventory</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 14%;">TC ID</th>
+              <th style="width: 26%;">Test Scenario</th>
+              <th style="width: 32%;">Test Steps</th>
+              <th style="width: 18%;">Expected Result</th>
+              <th style="width: 10%;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>TC-08</b></td>
+              <td>Get Categories</td>
+              <td>1. Send GET `/api/categories`</td>
+              <td>HTTP 200 OK. Categories returned.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-09</b></td>
+              <td>Get Products</td>
+              <td>1. Send GET `/api/products`</td>
+              <td>HTTP 200 OK. Products array returned.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-10</b></td>
+              <td>Admin Add Product</td>
+              <td>1. Login as Admin<br>2. POST `/api/products` with valid details</td>
+              <td>HTTP 201 Created. Item saved in DB.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-11</b></td>
+              <td>Admin Update Price</td>
+              <td>1. PUT `/api/products/:id` with new price</td>
+              <td>HTTP 200 OK. Price updated.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-12</b></td>
+              <td>Admin Delete Item</td>
+              <td>1. DELETE `/api/products/:id`</td>
+              <td>HTTP 200 OK. Item deleted.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 class="section-title">3. Customer Cart & COD Checkout</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 14%;">TC ID</th>
+              <th style="width: 26%;">Test Scenario</th>
+              <th style="width: 32%;">Test Steps</th>
+              <th style="width: 18%;">Expected Result</th>
+              <th style="width: 10%;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>TC-13</b></td>
+              <td>Reject Non-COD Payment</td>
+              <td>1. Place order with payment_method: 'CARD'</td>
+              <td>HTTP 400. Error: Only COD supported.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-14</b></td>
+              <td>Valid COD Order Placement</td>
+              <td>1. Item stock: 20, qty: 3<br>2. Place COD order</td>
+              <td>HTTP 201 Created. Stock decremented to 17.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-15</b></td>
+              <td>Insufficient Stock</td>
+              <td>1. Item stock: 5, attempt qty: 25</td>
+              <td>HTTP 400. Insufficient stock error.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="page-footer">33</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 34: TEST CASES (ADMIN PIPELINE & ANALYTICS) -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h2 class="section-title">4. Order Fulfillment Pipeline & Restock</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 14%;">TC ID</th>
+              <th style="width: 26%;">Test Scenario</th>
+              <th style="width: 32%;">Test Steps</th>
+              <th style="width: 18%;">Expected Result</th>
+              <th style="width: 10%;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>TC-16</b></td>
+              <td>Pending &rarr; Processing</td>
+              <td>1. Admin clicks "Pack Order"</td>
+              <td>HTTP 200 OK. Status: Processing.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-17</b></td>
+              <td>Processing &rarr; Shipped</td>
+              <td>1. Admin clicks "Dispatch"</td>
+              <td>HTTP 200 OK. Status: Shipped.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-18</b></td>
+              <td>Shipped &rarr; Delivered</td>
+              <td>1. Admin clicks "Deliver & Collect COD"</td>
+              <td>HTTP 200 OK. Status: Delivered.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-19</b></td>
+              <td>Terminal State Immutability</td>
+              <td>1. Attempt Delivered &rarr; Pending</td>
+              <td>HTTP 400. Reverting delivered blocked.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-20</b></td>
+              <td>Auto-Restock on Cancel</td>
+              <td>1. Order qty 5 (Stock: 17&rarr;12)<br>2. Cancel order</td>
+              <td>HTTP 200 OK. Status: Cancelled. Stock restored to 17.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 class="section-title">5. Real Sales Analytics</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 14%;">TC ID</th>
+              <th style="width: 26%;">Test Scenario</th>
+              <th style="width: 32%;">Test Steps</th>
+              <th style="width: 18%;">Expected Result</th>
+              <th style="width: 10%;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>TC-21</b></td>
+              <td>Customer Blocked</td>
+              <td>1. GET `/api/orders/analytics/overview` with customer token</td>
+              <td>HTTP 403 Forbidden. Access denied.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+            <tr>
+              <td><b>TC-22</b></td>
+              <td>Admin Real Analytics</td>
+              <td>1. GET `/api/orders/analytics/overview` with admin token</td>
+              <td>HTTP 200 OK. Returns live revenue, AOV, trend, and top products.</td>
+              <td class="status-pass">PASS</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="page-footer">34</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 35: LIMITATIONS -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Limitations</h1>
+
+        <p>
+          While <b>Vishal Mega Mart</b> is a robust, production-quality web application, the following limitations are acknowledged:
+        </p>
+
+        <h3 class="sub-section-title">1. Cash on Delivery (COD) Only</h3>
+        <p>
+          Online credit/debit cards, net banking, and UPI payment gateways (Razorpay, Stripe) are not integrated in this release. All order payments are collected physically upon delivery.
+        </p>
+
+        <h3 class="sub-section-title">2. External Image URLs</h3>
+        <p>
+          Product photographs are added by providing external image URLs (e.g. Unsplash CDN) rather than through direct file upload to cloud object storage (AWS S3 or Cloudinary). If an external URL fails, the image will not render.
+        </p>
+
+        <h3 class="sub-section-title">3. No Real-Time WebSockets</h3>
+        <p>
+          The admin dashboard does not use persistent WebSocket connections (Socket.io) for incoming order arrival chimes. Order updates are synchronized upon user interaction or manual data refresh.
+        </p>
+
+        <h3 class="sub-section-title">4. Single Supermarket Scope</h3>
+        <p>
+          The system is designed for a single grocery retail store or warehouse fulfillment center and does not support multi-vendor multi-tenant merchant partitioning.
+        </p>
+
+        <h3 class="sub-section-title">5. No Live Courier GPS Map</h3>
+        <p>
+          Delivery progress is managed through stage transitions (<code>Pending</code> &rarr; <code>Processing</code> &rarr; <code>Shipped</code> &rarr; <code>Delivered</code>) rather than real-time GPS map tracking.
+        </p>
+
+      </div>
+      <div class="page-footer">35</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 36: CONCLUSION & FUTURE ENHANCEMENTS -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Conclusion & Future Enhancements</h1>
+
+        <h2 class="section-title">Conclusions</h2>
+        <p>
+          <b>Vishal Mega Mart</b> successfully demonstrates the architecture, development, and deployment of a full-stack e-commerce grocery shopping and order fulfillment platform:
+        </p>
+
+        <ul>
+          <li>All identified problems were resolved: manual paper billing was replaced with automated digital ordering, inventory discrepancies were eliminated through automated cancellation restocking, and administrative access was secured via server secret passkeys.</li>
+          <li>The application enforces strict data validation using the Zod schema library, ensuring robust password complexity and preventing malformed payload attacks.</li>
+          <li>Store administrators are equipped with a modern sidebar dashboard providing real-time sales intelligence (gross/net turnover, average order value, 7-day trend, top-selling items) calculated dynamically from MongoDB without simulated data.</li>
+          <li>The project adheres to clean architectural principles — separate route and controller modules, JWT authentication middleware, Mongoose data modeling, and automated test coverage.</li>
+        </ul>
+
+        <h2 class="section-title">Future Enhancements</h2>
+        <ol>
+          <li><b>Digital Payment Gateway</b>: Integrate Razorpay, Stripe, or UPI QR codes alongside Cash on Delivery.</li>
+          <li><b>Direct Image File Uploads</b>: Integrate Cloudinary or AWS S3 for direct image uploads from the admin dashboard with automatic thumbnail generation.</li>
+          <li><b>WebSocket Live Chimes</b>: Implement Socket.io for immediate audio-visual notifications when orders arrive.</li>
+          <li><b>Delivery Partner App</b>: Build a companion React Native mobile app for delivery drivers to confirm doorstep deliveries.</li>
+          <li><b>SMS & WhatsApp Updates</b>: Integrate Twilio or WhatsApp Business API to send dispatch alerts.</li>
+        </ol>
+
+      </div>
+      <div class="page-footer">36</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PAGE 37: BIBLIOGRAPHY -->
+    <!-- ========================================================= -->
+    <div class="page">
+      <div class="page-content">
+        <h1 class="chapter-title">Bibliography</h1>
+
+        <p>
+          The development of our project, <b>Vishal Mega Mart</b>, was accomplished using the following official documentation, academic references, and development tools:
+        </p>
+
+        <h2 class="section-title">Official Documentation</h2>
+        <ul>
+          <li><b>Node.js Documentation</b>: https://nodejs.org/en/docs</li>
+          <li><b>Express.js Framework Guide</b>: https://expressjs.com</li>
+          <li><b>MongoDB Manual</b>: https://www.mongodb.com/docs</li>
+          <li><b>Mongoose ODM Reference</b>: https://mongoosejs.com/docs</li>
+          <li><b>Zod Validation Library</b>: https://zod.dev</li>
+          <li><b>JSON Web Tokens (JWT)</b>: https://jwt.io/introduction</li>
+          <li><b>Tailwind CSS Documentation</b>: https://tailwindcss.com/docs</li>
+          <li><b>MDN Web Docs (JavaScript ES6+, DOM, CSS3)</b>: https://developer.mozilla.org</li>
+        </ul>
+
+        <h2 class="section-title">Academic & Learning Resources</h2>
+        <ul>
+          <li>Pressman, R. S., & Maxim, B. R. — <i>Software Engineering: A Practitioner's Approach</i>, 9th Edition, McGraw-Hill.</li>
+          <li>Chodorow, K. — <i>MongoDB: The Definitive Guide</i>, 3rd Edition, O'Reilly Media.</li>
+          <li>GeeksforGeeks Computer Science Portal — https://www.geeksforgeeks.org</li>
+          <li>W3Schools Web Development Tutorials — https://www.w3schools.com</li>
+        </ul>
+
+        <h2 class="section-title">AI Assistance & Live References</h2>
+        <ul>
+          <li><b>Google DeepMind Antigravity AI</b>: Used for project planning, architecture design, code refactoring, schema validation, and report compilation.</li>
+          <li><b>Project GitHub Repository</b>: https://github.com/shravan7572/vishal-mega-mart</li>
+        </ul>
+
+      </div>
+      <div class="page-footer">37</div>
+    </div>
+
+  </div>
+
+</body>
+</html>
