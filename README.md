@@ -201,3 +201,4 @@ node server/test-client.js
    - `JWT_SECRET`: A long random secret key
    - `ADMIN_SECURITY_KEY`: Your private administrator signup password
 5. Keep your Render instance active by pinging `GET /health` every 10 minutes.
+# vishal-mega-mart
